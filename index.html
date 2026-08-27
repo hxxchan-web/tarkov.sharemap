@@ -1,148 +1,1155 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Tarkov Shared Map</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Tarkov Shared Map v19</title>
 <style>
-:root{--bg:#0b1118;--panel:#101822;--panel2:#131e2a;--line:#293746;--text:#e8edf2;--muted:#8ea0b1;--accent:#c7a56a;--danger:#e66;--ok:#72d46b;--blue:#61a9ff;--orange:#ef9b35;--purple:#b675e4}.hidden{display:none!important}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}button,select,input,textarea{font:inherit}button{cursor:pointer}#app{height:100vh;display:flex;flex-direction:column}.topbar{height:54px;display:flex;align-items:center;gap:10px;padding:7px 10px;background:#0d151e;border-bottom:1px solid var(--line);flex:none}.title{font-weight:800;color:#e2c48e;white-space:nowrap}.map-select,.floor-select{background:#17222f;color:var(--text);border:1px solid #354657;border-radius:8px;padding:7px 9px}.share-btn{margin-left:auto;background:#17222f;color:#e7eef5;border:1px solid #415469;border-radius:8px;padding:7px 12px;font-weight:700}.layout{flex:1;min-height:0;display:grid;grid-template-columns:250px minmax(500px,1fr) 280px}.side{background:var(--panel);overflow:auto;padding:9px;border-right:1px solid var(--line)}.side.right{border-right:0;border-left:1px solid var(--line)}.section-title{font-size:13px;color:#d9c39a;font-weight:800;margin:4px 0 8px}.tabs{display:flex;gap:4px;flex-wrap:wrap}.tab{background:#16212d;border:1px solid #314154;color:#b8c5d1;border-radius:6px;padding:5px 7px;font-size:11px}.tab.active{border-color:#c4a268;color:#efd7ac}.task-controls{display:flex;gap:6px;align-items:center;margin:8px 0;font-size:11px;color:var(--muted)}.task-list{display:flex;flex-direction:column;gap:5px}.task-row{background:#131e29;border:1px solid #263646;border-radius:7px;padding:7px}.task-name{font-size:12px;font-weight:700;cursor:pointer}.task-meta{font-size:10px;color:#899bad;margin-top:3px}.task-checks{display:flex;gap:8px;margin-top:6px;font-size:10px;color:#9eacb9}.map-wrap{position:relative;overflow:hidden;background:#0a0f14}.map-stage{position:absolute;inset:0;overflow:hidden}.map-content{position:absolute;left:50%;top:50%;transform-origin:center center}.map-svg{display:block;max-width:none}.pins{position:absolute;inset:0;pointer-events:none}.pin{position:absolute;transform:translate(-50%,-100%);pointer-events:auto;white-space:nowrap}.pin-inner{display:flex;align-items:center;gap:4px}.pin-label{font-size:10px;font-weight:800;text-shadow:0 1px 2px #000,0 0 3px #000}.large-label .pin-label{font-size:16px}.xlarge-label .pin-label{font-size:18px}.marker{width:20px;height:20px;display:flex;align-items:center;justify-content:center}.marker.exit{font-size:18px}.marker.spawn{width:10px;height:10px;border-radius:50%;border:2px solid #081018}.marker.key{font-size:16px}.marker.drop{width:14px;height:14px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:1px solid rgba(255,255,255,.35)}.marker.drop>span{transform:rotate(45deg);font-size:8px}.user-pin{display:block}.pin-note{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);max-width:120px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.16);border-radius:5px;padding:2px 5px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}.toolbar{position:absolute;left:8px;bottom:8px;right:8px;background:rgba(9,15,21,.9);border:1px solid #2d3d4d;border-radius:9px;padding:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;z-index:5}.stamp-btn{background:#141f2b;color:#abb9c6;border:1px solid #304153;border-radius:7px;padding:5px 7px;font-size:11px}.stamp-btn.active{border-color:#c5a268;color:#f0d7a8}.memo{flex:1;min-width:130px;background:#101923;border:1px solid #2b3a49;color:#dbe3ea;border-radius:6px;padding:5px 7px;font-size:11px}.small-btn{background:#15202c;color:#c2ced8;border:1px solid #324252;border-radius:6px;padding:5px 7px;font-size:10px}.exit-toggles{display:flex;gap:8px;flex-wrap:wrap;font-size:11px;color:#aebbc6}.exit-toggles label{display:flex;gap:3px;align-items:center}.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:30;display:flex;align-items:center;justify-content:center;padding:20px}.modal{width:min(680px,96vw);max-height:86vh;overflow:auto;background:#111c27;border:1px solid #3b4e61;border-radius:14px;padding:16px;box-shadow:0 20px 70px rgba(0,0,0,.5)}.modal-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}.modal h2{margin:0;font-size:20px;color:#e7d2a9}.close{background:#203043;color:#d9e4ec;border:1px solid #40566d;border-radius:8px;padding:5px 9px}.task-detail{font-size:13px;line-height:1.7;color:#c9d5df}.task-detail h3{color:#e2c797;margin:14px 0 5px}.task-detail a{color:#7ebcff}.share-status{border:1px solid #36516d;background:#13283a;padding:9px;border-radius:8px;font-weight:700;margin-bottom:10px}.share-actions{display:flex;gap:8px;flex-wrap:wrap}.share-actions button{background:#1b344b;color:#e3edf4;border:1px solid #477297;border-radius:8px;padding:8px 12px;font-weight:700}.invite{width:100%;margin:10px 0;background:#0f1924;color:#dbe7f0;border:1px solid #3d5d7a;border-radius:7px;padding:8px}.share-help{font-size:12px;color:#a9bac9;line-height:1.5}.loading{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#94a6b8}.map-error{padding:20px;color:#e6a8a8}.right h3{font-size:13px;color:#d6c39c}.selected-box{font-size:11px;color:#9fb0bf;line-height:1.5;background:#131e29;border:1px solid #263746;border-radius:7px;padding:8px}.status-pill{display:inline-block;padding:2px 5px;border-radius:5px;background:#1b2937;font-size:10px}@media(max-width:900px){.layout{grid-template-columns:190px minmax(420px,1fr) 220px}.title{display:none}.topbar{gap:5px;padding:5px}.map-select,.floor-select,.share-btn{font-size:11px;padding:6px}}
+  :root{--bg:#0b0e12;--panel:#11161d;--panel2:#171d25;--line:#29313c;--text:#edf1f4;--muted:#95a0ad;--accent:#d2b46d}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif}
+  button,input{font:inherit} button{cursor:pointer}
+  .app{height:100%;display:grid;grid-template-columns:165px minmax(0,1fr) 285px;overflow:hidden}
+  .panel{background:var(--panel);overflow:auto}.left{border-right:1px solid var(--line)}.right{border-left:1px solid var(--line)}
+  .brand{padding:10px;border-bottom:1px solid var(--line)} .brand h1{margin:0;font-size:16px;letter-spacing:.05em} .brand small{color:var(--muted);font-size:11px}
+  .section{padding:8px}.section-title{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  .map-list,.trader-grid{display:grid;gap:4px}
+  .map-btn,.trader-btn,.small-btn,.toggle-chip{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:5px 7px;text-align:left;font-size:11px}
+  .map-btn.active,.trader-btn.active,.small-btn.active,.toggle-chip.active{border-color:var(--accent);box-shadow:0 0 0 1px rgba(210,180,109,.18)}
+  .small-btn{padding:5px 8px;text-align:center}
+  .main{min-width:0;display:flex;flex-direction:column;overflow:hidden}
+  .topbar{display:flex;gap:6px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--line);background:#0f1318}
+  .title{font-weight:700;margin-right:auto}.subtle{color:var(--muted);font-size:11px}.floorbar{display:flex;gap:4px;align-items:center;overflow:auto;max-width:40vw}.floor-btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:7px;padding:4px 6px;font-size:9px;white-space:nowrap}.floor-btn.active{border-color:var(--accent);color:#ffe7a7}.exit-toggle.active{border-color:var(--accent);color:#c7f5a7}.exit-filters{display:flex;gap:4px;align-items:center;flex-wrap:wrap}.exit-filter{display:flex;align-items:center;gap:4px;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:7px;padding:4px 6px;font-size:10px;white-space:nowrap}.exit-filter input{margin:0}.pin-item.builtin{pointer-events:none;z-index:2}.pin-item.builtin .pin-hit{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:18px;height:18px;cursor:default}.pin-item.builtin .pin-label{position:absolute;left:11px;top:-11px;color:#ecf2f8;font-size:10px;line-height:1.1;white-space:nowrap;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000}.pin-item.builtin.large-label .pin-label{font-size:16px;line-height:1.18}.pin-item.builtin.xlarge-label .pin-label{font-size:18px;line-height:1.18}.pin-item.user{z-index:3}.pin-item.builtin.label-left .pin-label{left:auto;right:11px;text-align:right}.pin-item.builtin.label-bottom .pin-label{left:0;top:11px}.pin-item.builtin.label-top .pin-label{left:0;top:-18px}.pin-item.builtin.label-top-left .pin-label{left:auto;right:11px;top:-18px;text-align:right}
+  .map-shell{position:relative;flex:1;min-height:0;background:#0b0f13}
+  #mapStage{position:absolute;inset:0;overflow:hidden;touch-action:none}
+  #anchor{position:absolute;left:50%;top:50%} #content{position:relative;transform-origin:0 0}
+  #mapImage{display:none;max-width:none;user-select:none;pointer-events:none;filter:brightness(.96) contrast(1.02)}#svgHost{position:relative;display:block}#svgHost>svg{display:block;width:100%;height:100%}#customFloorHost{display:none;width:1200px;height:760px}
+  #pinLayer{position:absolute;left:0;top:0}
+  .map-placeholder{width:1600px;height:1100px;display:grid;place-items:center;background:#10151c;border:1px solid #202833;color:#7e8894;font-size:26px}
+  .pin-item{position:absolute;transform:translate(-50%,-100%);pointer-events:auto}
+  .pin-item.builtin{display:flex;align-items:flex-start;gap:6px}
+  .pin-item.user{display:block}
+  .pin-hit{width:28px;height:32px;display:block;cursor:pointer;flex:0 0 auto;filter:drop-shadow(0 1px 4px rgba(0,0,0,.55))}.pin-item.user .pin-hit{display:flex;align-items:flex-end;justify-content:center;width:24px;height:28px}
+  .pin-item.selected .pin-hit{filter:drop-shadow(0 0 0 rgba(0,0,0,0)) drop-shadow(0 0 0 2px rgba(255,233,171,.5)) drop-shadow(0 1px 4px rgba(0,0,0,.55))}
+  .pin-note{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);max-width:120px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.10);color:#fff;border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;word-break:normal;pointer-events:none}
+  .toolbar{padding:6px 8px;border-top:1px solid var(--line);background:#0f1318}
+  .stampbar{display:flex;gap:5px;overflow:auto}
+  .stamp{flex:0 0 auto;display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--text);padding:4px 7px;font-size:11px}
+  .stamp.active{border-color:var(--accent)} .stamp-icon{width:17px;height:20px;display:block;flex:0 0 auto}
+  .note-editor{margin-top:5px;padding-top:5px;border-top:1px solid var(--line);display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:6px;align-items:center}
+  .note-editor input{width:100%;border:1px solid var(--line);background:#0b0f14;color:var(--text);border-radius:7px;padding:5px 8px;font-size:11px}
+  .note-actions{display:flex;gap:5px;align-items:center;flex-wrap:nowrap}.note-editor .section-title{margin:0;font-size:10px}.note-actions .small-btn{padding:4px 7px;font-size:10px}.note-actions .subtle{display:none}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+  .tab{border:0;background:transparent;color:var(--muted);padding:10px 8px;font-size:12px}.tab.active{color:var(--text);border-bottom:2px solid var(--accent)}
+  .task-toolbar{padding:8px;border-bottom:1px solid var(--line);display:grid;gap:6px}
+  .task-toolbar input{width:100%;border:1px solid var(--line);background:#0b0f14;color:var(--text);border-radius:8px;padding:7px 8px;font-size:11px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .status{padding:6px 8px;font-size:10px;color:var(--muted);border-bottom:1px solid var(--line)}
+  .task-list{padding:8px}
+  .task-card{border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:8px;margin-bottom:6px}
+  .task-name{font-weight:700;font-size:12px} .task-meta{margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;font-size:10px;color:var(--muted)}
+  .badge{border:1px solid var(--line);border-radius:999px;padding:2px 6px;font-size:10px}.rank{color:#f0d899}
+  .task-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:7px;font-size:11px}.task-actions label{display:flex;align-items:center;gap:4px}
+  .task-actions button{border:1px solid var(--line);background:#0c1015;color:var(--text);border-radius:8px;padding:4px 7px;font-size:10px}
+  .now-badge{display:inline-block;margin-left:6px;color:#c4f29c;font-size:11px}.done-badge{display:inline-block;margin-left:6px;color:#a2b0bf;font-size:11px}
+  .trader-grid{padding:8px;grid-template-columns:1fr 1fr}
+  .mobile-toggle{display:none}
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
+  .modal.show{display:flex}.modal-card{width:min(720px,100%);max-height:88vh;overflow:auto;background:#11161d;border:1px solid #3b4451;border-radius:14px}
+  .modal-head{display:flex;gap:10px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)} .modal-head h2{margin:0;font-size:17px;flex:1}
+  .modal-body{padding:16px}.objectives{list-style:none;padding:0;margin:12px 0 16px;display:grid;gap:8px}
+  .objectives li{padding:9px 10px;background:#171d25;border:1px solid var(--line);border-radius:9px}
+  .wiki{display:inline-block;color:#f3db99;text-decoration:none;border:1px solid #5b4d2d;border-radius:8px;padding:8px 10px}
+  .share-btn.connected{border-color:#53b978;color:#bff4cd}.share-btn.connecting{border-color:#d2b46d;color:#ffe7a7}
+  .share-card{width:min(520px,100%)}.share-status{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#0c1117;margin-bottom:10px;font-size:12px;line-height:1.5}
+  .share-actions{display:flex;gap:7px;flex-wrap:wrap}.share-actions .small-btn{padding:8px 10px}.share-link{margin-top:10px;width:100%;border:1px solid var(--line);background:#080c10;color:#dce4eb;border-radius:8px;padding:8px;font-size:11px}
+  .share-help{margin-top:10px;color:var(--muted);font-size:11px;line-height:1.5}
+  @media(max-width:980px){.app{grid-template-columns:150px minmax(0,1fr) 265px}}
+  @media(max-width:760px){.app{grid-template-columns:1fr}.left{display:none}.right{position:fixed;top:0;right:0;bottom:0;width:min(94vw,390px);transform:translateX(100%);transition:.2s;z-index:30}.right.open{transform:translateX(0)}.mobile-toggle{display:inline-block}}
 </style>
 </head>
 <body>
-<div id="app">
-  <div class="topbar">
-    <div class="title">TARKOV SHARED MAP</div>
-    <select id="mapSelect" class="map-select"></select>
-    <select id="floorSelect" class="floor-select"></select>
-    <div class="exit-toggles">
-      <label><input id="showPMC" type="checkbox" checked>PMC</label>
-      <label><input id="showScav" type="checkbox" checked>SCAV</label>
-      <label><input id="showShared" type="checkbox" checked>共通</label>
-      <label><input id="showCoop" type="checkbox" checked>共同</label>
-    </div>
-    <button id="shareOpen" class="share-btn">フレンド共有</button>
-  </div>
-  <div class="layout">
-    <aside class="side">
-      <div class="section-title">タスク</div>
-      <div id="taskTabs" class="tabs"></div>
-      <div class="task-controls"><label><input id="showCompleted" type="checkbox"> 完了済みを表示</label></div>
-      <div id="taskList" class="task-list"></div>
-    </aside>
-    <main class="map-wrap" id="mapWrap">
-      <div id="mapStage" class="map-stage"><div class="loading">マップ読み込み中…</div></div>
-      <div class="toolbar">
-        <button class="stamp-btn" data-stamp="pmc_spawn">● PMCスポーン</button>
-        <button class="stamp-btn" data-stamp="key_room">🔑 鍵部屋</button>
-        <button class="stamp-btn active" data-stamp="task">📍 タスク</button>
-        <button class="stamp-btn" data-stamp="purpose">📍 目的</button>
-        <input id="memoInput" class="memo" placeholder="ピンのメモ">
-        <button id="saveMemo" class="small-btn">メモ保存</button>
-        <button id="deletePin" class="small-btn">選択ピンを削除</button>
+<div class="app">
+  <aside class="panel left">
+    <div class="brand"><h1>TARKOV SHARED MAP</h1><small>Friend Raid Planner</small></div>
+    <div class="section"><div class="section-title">Maps</div><div id="mapList" class="map-list"></div></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <button id="mobileTasksBtn" class="small-btn mobile-toggle">タスク</button>
+      <div>
+        <div id="currentMapTitle" class="title">Customs</div>
+        <div id="currentMapInfo" class="subtle"></div>
       </div>
-    </main>
-    <aside class="side right">
-      <div class="section-title">選択中</div>
-      <div id="selectedInfo" class="selected-box">ピンを選択すると情報を表示します。</div>
-      <h3>タスク状態</h3>
-      <div id="taskSummary" class="selected-box"></div>
-    </aside>
+      <div id="floorBar" class="floorbar"></div><button id="shareRoomBtn" class="small-btn share-btn">フレンド共有</button><button id="toggleExitsBtn" class="small-btn exit-toggle active">出口表示</button><div class="exit-filters"><label class="exit-filter"><input id="pmcExitChk" type="checkbox" checked>PMC</label><label class="exit-filter"><input id="scavExitChk" type="checkbox" checked>SCAV</label><label class="exit-filter"><input id="sharedExitChk" type="checkbox" checked>共通</label><label class="exit-filter"><input id="coopExitChk" type="checkbox" checked>共同</label></div><button id="zoomOut" class="small-btn">−</button>
+      <button id="zoomReset" class="small-btn">100%</button>
+      <button id="zoomIn" class="small-btn">＋</button>
+    </div>
+    <div class="map-shell">
+      <div id="mapStage">
+        <div id="anchor">
+          <div id="content">
+            <div id="svgHost"></div><div id="customFloorHost"></div><img id="mapImage" alt="" />
+            <div id="placeholder" class="map-placeholder" style="display:none;">このマップ画像は準備中です</div>
+            <div id="pinLayer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="toolbar">
+      <div class="section-title">スタンプ</div>
+      <div id="stampbar" class="stampbar"></div>
+      <div class="note-editor">
+        <div class="section-title">選択ピンのメモ</div>
+        <input id="pinNoteInput" placeholder="例: ここで集合 / 鍵必要 / 目的地" />
+        <div class="note-actions">
+          <button id="saveNoteBtn" class="small-btn">メモ保存</button>
+          <button id="deletePinBtn" class="small-btn">選択ピンを削除</button>
+          <span class="subtle">空いているマップ上をダブルクリックでピンを置けます</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="panel right" id="rightPanel">
+    <div class="tabs">
+      <button class="tab active" data-tab="all">全タスク</button>
+      <button class="tab" data-tab="trader">トレーダー別</button>
+    </div>
+    <div id="apiStatus" class="status">タスクデータを読み込み中…</div>
+
+    <div id="allTab">
+      <div class="task-toolbar">
+        <input id="taskSearch" placeholder="タスク名を検索" />
+        <div class="chips">
+          <button id="filterAllBtn" class="toggle-chip active">すべて</button>
+          <button id="filterMapBtn" class="toggle-chip">選択マップ関連のみ</button>
+          <label class="toggle-chip"><input id="showDoneToggle" type="checkbox" /> 完了済みも表示</label>
+        </div>
+      </div>
+      <div id="taskList" class="task-list"></div>
+    </div>
+
+    <div id="traderTab" style="display:none;">
+      <div class="trader-grid" id="traderGrid"></div>
+      <div class="task-toolbar" style="border-top:1px solid var(--line)">
+        <input id="traderTaskSearch" placeholder="このトレーダーのタスクを検索" />
+        <label class="toggle-chip"><input id="showDoneTraderToggle" type="checkbox" /> 完了済みも表示</label>
+      </div>
+      <div id="traderTaskList" class="task-list"></div>
+    </div>
+  </aside>
+</div>
+
+<div id="shareModal" class="modal">
+  <div class="modal-card share-card">
+    <div class="modal-head"><h2>フレンド共有</h2><button id="closeShareModal" class="small-btn">閉じる</button></div>
+    <div class="modal-body">
+      <div id="shareStatus" class="share-status">共有ルームに接続していません。</div>
+      <div class="share-actions">
+        <button id="createRoomBtn" class="small-btn">共有ルームを作成</button>
+        <button id="copyInviteBtn" class="small-btn" disabled>招待リンクをコピー</button>
+        <button id="leaveRoomBtn" class="small-btn" disabled>共有を終了</button>
+      </div>
+      <input id="inviteLink" class="share-link" readonly placeholder="ルーム作成後、ここに招待リンクが表示されます" />
+      <div class="share-help">Discordなどで招待リンクをフレンドに送ってください。リンクを開くと自動で同じ共有ルームに参加し、ピン・メモ・タスク状態・表示マップが同期します。Firebaseの設定は不要です。</div>
+    </div>
   </div>
 </div>
-<div id="taskModalBg" class="modal-bg hidden"><div class="modal"><div class="modal-head"><h2 id="taskModalTitle"></h2><button id="taskModalClose" class="close">閉じる</button></div><div id="taskModalBody" class="task-detail"></div></div></div>
-<div id="shareModalBg" class="modal-bg hidden"><div class="modal"><div class="modal-head"><h2>フレンド共有</h2><button id="shareClose" class="close">閉じる</button></div><div id="shareStatus" class="share-status">共有ルーム未作成</div><div class="share-actions"><button id="createRoom">共有ルームを作成</button><button id="copyInvite">招待リンクをコピー</button><button id="endShare">共有を終了</button></div><input id="inviteField" class="invite" readonly><div class="share-help">Discordなどで招待リンクをフレンドに送ってください。リンクを開くと自動で同じ共有ルームに参加し、ピン・メモ・タスク状態・表示マップが同期します。Firebaseの設定は不要です。</div></div></div>
+
+<div id="taskModal" class="modal">
+  <div class="modal-card">
+    <div class="modal-head"><h2 id="taskModalTitle"></h2><button id="closeTaskModal" class="small-btn">閉じる</button></div>
+    <div class="modal-body">
+      <div id="taskModalMeta" class="task-meta"></div>
+      <ul id="taskObjectives" class="objectives"></ul>
+      <div id="taskKeys" style="display:none;margin:12px 0;padding:10px;border:1px solid var(--line);border-radius:10px;background:#11171e;">
+        <div style="font-weight:700;margin-bottom:6px;color:#f0d899;">🔑 必要な鍵（ゲーム内表示名）</div>
+        <ul id="taskKeysList" class="objectives" style="margin:0;padding-left:20px;"></ul>
+      </div>
+      <a id="taskWiki" class="wiki" target="_blank" rel="noopener">Wikiを開く ↗</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 <script>
-const MAPS=[
-{name:"Customs",file:"Customs.svg",floors:["Ground_Level","Dorm2_1F","Dorm2_2F","Dorm3_1F","Dorm3_2F","Dorm3_3F"],defaultFloor:"Ground_Level"},{name:"Factory",file:"Factory.svg",floors:["Basement","Ground_Floor","First_Floor","Second_Floor"],defaultFloor:"Ground_Floor"},{name:"Ground Zero",file:"GroundZero.svg",floors:["Ground_Level","Underground_Level","First_Floor","Second_Floor","Third_Floor"],defaultFloor:"Ground_Level"},{name:"Interchange",file:"Interchange.svg",floors:["Ground_Level","First_Floor","Second_Floor"],defaultFloor:"Ground_Level"},{name:"The Lab",file:"Labs.svg",floors:["Technical_Level","First_Level","Second_Level"],defaultFloor:"Technical_Level"},{name:"Lighthouse",file:"Lighthouse.svg",floors:["Ground_Level"],defaultFloor:"Ground_Level"},{name:"Reserve",file:"Reserve.svg",floors:["Bunkers","Ground_Level"],defaultFloor:"Ground_Level"},{name:"Shoreline",file:"Shoreline.svg",floors:["Ground_Level","Underground_Level","First_Floor","Second_Floor","Third_Floor"],defaultFloor:"Ground_Level"},{name:"Streets of Tarkov",file:"StreetsOfTarkov.svg",floors:["Ground_Level","Underground_Level","First_Floor","Second_Floor","Third_Floor","Fourth_Floor","Fifth_Floor"],defaultFloor:"Ground_Level"},{name:"Terminal",file:"Terminal.svg",floors:["Ground_Level"],defaultFloor:"Ground_Level"},{name:"Woods",file:"Woods.svg",floors:["Ground_Level"],defaultFloor:"Ground_Level"}];
-const STAMPS=[{id:"pmc_spawn",label:"PMCスポーン",color:"#35a8d4",type:"spawn"},{id:"key_room",label:"鍵部屋",color:"#6677d9",type:"key"},{id:"task",label:"タスク",color:"#9c63d7",type:"task"},{id:"purpose",label:"目的",color:"#8a949e",type:"purpose"}];
-const EXTRA_STAMPS=[{id:"coop_exit",label:"共同出口",color:"#b675e4",type:"exit"}];
-const BUILTIN_EXIT_STAMPS={pmc_exit:{id:"pmc_exit",label:"PMC出口",color:"#72d46b",type:"exit"},scav_exit:{id:"scav_exit",label:"SCAV出口",color:"#ef9b35",type:"exit"},shared_exit:{id:"shared_exit",label:"共通出口",color:"#61a9ff",type:"exit"},coop_exit:{id:"coop_exit",label:"共同出口",color:"#b675e4",type:"exit"}};
-const getStamp=id=>BUILTIN_EXIT_STAMPS[id]||[...STAMPS,...EXTRA_STAMPS].find(s=>s.id===id)||STAMPS[0];
-const EXIT_DATA={
-"Customs":[
-{n:"Crossroads",t:"pmc_exit",x:.816,y:.164},{n:"Trailer Park",t:"pmc_exit",x:.887,y:.221},{n:"RUAF Roadblock",t:"shared_exit",x:.675,y:.313},{n:"Smuggler's Boat",t:"pmc_exit",x:.538,y:.432},{n:"Dorms V-Ex",t:"pmc_exit",x:.514,y:.575},{n:"Old Gas Station",t:"pmc_exit",x:.3671,y:.2325},{n:"ZB-1011",t:"pmc_exit",x:.058,y:.3195},{n:"ZB-1012",t:"pmc_exit",x:.115,y:.278},{n:"Old Road Gate",t:"scav_exit",x:.496,y:.553},{n:"Sniper Roadblock",t:"scav_exit",x:.654,y:.491},{n:"Trailer Park Workers' Shack",t:"scav_exit",x:.824,y:.261},{n:"Railroad to Tarkov",t:"scav_exit",x:.862,y:.39},{n:"Railroad to Port",t:"scav_exit",x:.754,y:.42},{n:"Factory Shacks",t:"scav_exit",x:.578,y:.331},{n:"Warehouse 17",t:"scav_exit",x:.629,y:.306},{n:"Old Gas Station Gate",t:"scav_exit",x:.3753,y:.1968},{n:"Military Base CP",t:"scav_exit",x:.178,y:.167},{n:"Passage Between Rocks",t:"scav_exit",x:.303,y:.128},{n:"Scav Checkpoint",t:"scav_exit",x:.236,y:.179},{n:"Administration Gate",t:"scav_exit",x:.15,y:.212},{n:"Factory Far Corner",t:"scav_exit",x:.075,y:.229}
-],
-"Factory":[{n:"Gate 3",t:"pmc_exit",x:.897,y:.858},{n:"Gate 0",t:"pmc_exit",x:.93,y:.94},{n:"Cellars",t:"pmc_exit",x:.545,y:.905},{n:"Med Tent Gate",t:"shared_exit",x:.956,y:.648},{n:"Office Window",t:"scav_exit",x:.547,y:.266},{n:"Camera Bunker Door",t:"scav_exit",x:.242,y:.672},{n:"Courtyard Gate",t:"scav_exit",x:.0225,y:.507}
-],
-"Ground Zero":[{n:"Nakatani Basement Stairs",t:"pmc_exit",x:.089,y:.693},{n:"Mira Ave",t:"pmc_exit",x:.59,y:.79},{n:"Emercom Checkpoint",t:"pmc_exit",x:.891,y:.778},{n:"Police Cordon V-Ex",t:"pmc_exit",x:.846,y:.438},{n:"Scav Checkpoint (Co-Op)",t:"coop_exit",x:.568,y:.197},{n:"Nakatani Basement Stairs",t:"scav_exit",x:.09,y:.71},{n:"Emercom Checkpoint",t:"scav_exit",x:.88,y:.77}
-],
-"Interchange":[{n:"Railway Exfil",t:"shared_exit",x:.152,y:.216},{n:"Emercom Checkpoint",t:"shared_exit",x:.8915,y:.835},{n:"Power Station V-Ex",t:"pmc_exit",x:.756,y:.207},{n:"Hole in Fence",t:"pmc_exit",x:.816,y:.566},{n:"Saferoom Exfil",t:"pmc_exit",x:.485,y:.685},{n:"Scav Camp (Co-Op)",t:"coop_exit",x:.188,y:.587}
-],
-"Lighthouse":[{n:"Northern Checkpoint",t:"pmc_exit",x:.708,y:.145},{n:"Path to Shoreline",t:"pmc_exit",x:.176,y:.797},{n:"Southern Road",t:"shared_exit",x:.207,y:.925},{n:"Mountain Pass",t:"pmc_exit",x:.471,y:.421},{n:"Road to Military Base V-Ex",t:"pmc_exit",x:.644,y:.297},{n:"Side Tunnel (Co-Op)",t:"coop_exit",x:.248,y:.83},{n:"Industrial Zone Gates",t:"scav_exit",x:.677,y:.238},{n:"Hideout Under the Landing Stage",t:"scav_exit",x:.33,y:.736},{n:"Scav Hideout at the Grotto",t:"scav_exit",x:.383,y:.675},{n:"Southern Road Landslide",t:"scav_exit",x:.239,y:.9}
-],
-"Reserve":[{n:"D-2",t:"pmc_exit",x:.6958,y:.8295},{n:"Cliff Descent",t:"pmc_exit",x:.315,y:.218},{n:"Bunker Hermetic Door",t:"pmc_exit",x:.825,y:.734},{n:"Sewer Manhole",t:"shared_exit",x:.56,y:.573},{n:"Armored Train",t:"shared_exit",x:.879,y:.543},{n:"Scav Lands",t:"coop_exit",x:.165,y:.427},{n:"Hole in the Wall by the Mountains",t:"scav_exit",x:.139,y:.305},{n:"Heating Pipe",t:"scav_exit",x:.82,y:.306},{n:"Checkpoint Fence",t:"scav_exit",x:.824,y:.414},{n:"Depot Hermetic Door",t:"scav_exit",x:.824,y:.721}
-],
-"Shoreline":[{n:"Road to Customs",t:"shared_exit",x:.858,y:.432},{n:"Path to Lighthouse",t:"shared_exit",x:.12,y:.807},{n:"Tunnel",t:"shared_exit",x:.107,y:.704},{n:"Pier Boat",t:"pmc_exit",x:.548,y:.925},{n:"Railway Bridge",t:"pmc_exit",x:.826,y:.566},{n:"Road to North V-Ex",t:"pmc_exit",x:.554,y:.143},{n:"Ruined Road",t:"scav_exit",x:.113,y:.719},{n:"Lighthouse",t:"scav_exit",x:.585,y:.93},{n:"Old Bunker",t:"scav_exit",x:.36,y:.211},{n:"East Wing Gym Entrance",t:"scav_exit",x:.585,y:.38},{n:"South Fence Passage",t:"scav_exit",x:.324,y:.874}
-],
-"Streets of Tarkov":[{n:"Expo Checkpoint",t:"pmc_exit",x:.172,y:.2317},{n:"Sewer River",t:"pmc_exit",x:.962,y:.607},{n:"Damaged House",t:"pmc_exit",x:.936,y:.7818},{n:"Courtyard",t:"pmc_exit",x:.786,y:.964},{n:"Entrance to Catacombs",t:"pmc_exit",x:.934,y:.636},{n:"Klimov Street",t:"pmc_exit",x:.51,y:.171},{n:"Primorsky Ave Taxi V-Ex",t:"pmc_exit",x:.373,y:.928},{n:"Pinewood Basement",t:"pmc_exit",x:.494,y:.602},{n:"Ventilation Shaft",t:"pmc_exit",x:.69,y:.77},{n:"Sewer Manhole",t:"scav_exit",x:.533,y:.742},{n:"Basement Descent",t:"scav_exit",x:.65,y:.628},{n:"Cardinal Apartment Complex Parking",t:"scav_exit",x:.216,y:.838},{n:"Near Kamchatskaya Arch",t:"scav_exit",x:.847,y:.79},{n:"Evacuation Zone",t:"scav_exit",x:.158,y:.335}
-],
-"Woods":[{n:"Outskirts",t:"shared_exit",x:.174,y:.823},{n:"RUAF Gate",t:"shared_exit",x:.715,y:.747},{n:"UN Roadblock",t:"shared_exit",x:.8295,y:.894},{n:"Northern UN Roadblock",t:"shared_exit",x:.854,y:.6335},{n:"Bridge V-Ex",t:"pmc_exit",x:.805,y:.2945},{n:"ZB-014",t:"pmc_exit",x:.256,y:.765},{n:"ZB-016",t:"pmc_exit",x:.604,y:.497},{n:"Factory Gate (Co-Op)",t:"coop_exit",x:.64,y:.805},{n:"Scav Bridge",t:"scav_exit",x:.831,y:.324},{n:"Scav Bunker",t:"scav_exit",x:.622,y:.217},{n:"Mountain Stash",t:"scav_exit",x:.447,y:.39},{n:"Eastern Rocks",t:"scav_exit",x:.825,y:.6361},{n:"Old Station",t:"scav_exit",x:.723,y:.688},{n:"Old Railway Depot",t:"scav_exit",x:.8185,y:.793},{n:"Dead Man's Place",t:"scav_exit",x:.42,y:.839},{n:"The Boat",t:"scav_exit",x:.36,y:.866}
-],"The Lab":[],"Terminal":[]};
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-let currentMap="Customs",currentFloor="Ground_Level",currentStamp="task",selectedPinId=null,zoom=1,panX=0,panY=0,isPanning=false,panStart=null,svgNatural={w:1000,h:1000};
-let tasks=[],tasksJA=[],tasksEN=[],taskRanks=new Map(),taskTopo=new Map(),traders=[],taskTab="all",states={};
-let room=null,peer=null,connections=[],syncApplying=false;
-const PIN_PREFIX="tarkovSharedPins.v3."; const TASK_KEY="tarkovTaskStates.v3"; const VIEW_KEY="tarkovView.v19"; const USER_PIN_Y_BIAS=0.004;
-const mapCfg=()=>MAPS.find(m=>m.name===currentMap)||MAPS[0];
-function loadStates(){try{states=JSON.parse(localStorage.getItem(TASK_KEY)||"{}")||{}}catch{states={}}}
-function saveStates(broadcast=true){localStorage.setItem(TASK_KEY,JSON.stringify(states));if(broadcast)sendSync({kind:"taskStates",states})}
-function pinKey(map=currentMap){return PIN_PREFIX+map}
-function loadPins(map=currentMap){try{return JSON.parse(localStorage.getItem(pinKey(map))||"[]")||[]}catch{return[]}}
-function savePins(arr,map=currentMap,broadcast=true){localStorage.setItem(pinKey(map),JSON.stringify(arr));if(broadcast)sendSync({kind:"pins",map,pins:arr})}
-function saveView(broadcast=true){const v={map:currentMap,floor:currentFloor};localStorage.setItem(VIEW_KEY,JSON.stringify(v));if(broadcast)sendSync({kind:"view",...v})}
-function restoreView(){try{const v=JSON.parse(localStorage.getItem(VIEW_KEY)||"{}");if(MAPS.some(m=>m.name===v.map)){currentMap=v.map;const m=mapCfg();currentFloor=m.floors.includes(v.floor)?v.floor:m.defaultFloor}}catch{}}
-function setupSelects(){const ms=$("#mapSelect");ms.innerHTML=MAPS.map(m=>`<option>${m.name}</option>`).join("");ms.value=currentMap;fillFloors();ms.onchange=async()=>{currentMap=ms.value;currentFloor=mapCfg().defaultFloor;fillFloors();selectedPinId=null;await loadMap();renderTaskLists();saveView()};$("#floorSelect").onchange=()=>{currentFloor=$("#floorSelect").value;applyFloor();renderPins();saveView()}}
-function fillFloors(){const fs=$("#floorSelect"),m=mapCfg();fs.innerHTML=m.floors.map(f=>`<option value="${f}">${f.replaceAll("_"," ")}</option>`).join("");fs.value=currentFloor}
-async function loadMap(){const stage=$("#mapStage");stage.innerHTML='<div class="loading">マップ読み込み中…</div>';try{const url=`https://cdn.jsdelivr.net/gh/the-hideout/tarkov-dev-svg-maps@master/maps/${mapCfg().file}`;const text=await fetch(url).then(r=>{if(!r.ok)throw new Error(r.status);return r.text()});const box=document.createElement("div");box.className="map-content";box.innerHTML=text;const svg=box.querySelector("svg");if(!svg)throw new Error("SVGなし");svg.classList.add("map-svg");let vb=(svg.getAttribute("viewBox")||"0 0 1000 1000").trim().split(/[ ,]+/).map(Number);svgNatural={w:vb[2]||1000,h:vb[3]||1000};box.appendChild(Object.assign(document.createElement("div"),{className:"pins",id:"pinLayer"}));stage.innerHTML="";stage.appendChild(box);zoom=fitZoom();panX=0;panY=0;applyFloor();updateTransform();renderPins();wireMapInput()}catch(e){stage.innerHTML=`<div class="map-error">マップの読み込みに失敗しました。<br>${e.message}</div>`}}
-function fitZoom(){const r=$("#mapWrap").getBoundingClientRect();return Math.min((r.width-10)/svgNatural.w,(r.height-10)/svgNatural.h)*.96}
-function updateTransform(){const c=document.querySelector(".map-content");if(c)c.style.transform=`translate(calc(-50% + ${panX}px),calc(-50% + ${panY}px)) scale(${zoom})`}
-function applyFloor(){const svg=document.querySelector(".map-svg");if(!svg)return;const floors=mapCfg().floors;floors.forEach(f=>{svg.querySelectorAll(`#${CSS.escape(f)},[data-floor="${f}"]`).forEach(el=>el.style.display=f===currentFloor?"":"none")})}
-function wireMapInput(){const stage=$("#mapStage");stage.onwheel=e=>{e.preventDefault();const before=zoom;zoom=Math.max(.15,Math.min(4,zoom*(e.deltaY<0?1.1:.9)));const rect=stage.getBoundingClientRect(),mx=e.clientX-rect.left-rect.width/2,my=e.clientY-rect.top-rect.height/2;panX-=mx*(zoom/before-1);panY-=my*(zoom/before-1);updateTransform()};stage.onmousedown=e=>{if(e.button!==0||e.target.closest(".pin"))return;isPanning=true;panStart={x:e.clientX-panX,y:e.clientY-panY};stage.style.cursor="grabbing"};window.onmousemove=e=>{if(isPanning){panX=e.clientX-panStart.x;panY=e.clientY-panStart.y;updateTransform()}};window.onmouseup=e=>{if(isPanning){isPanning=false;stage.style.cursor=""}};stage.ondblclick=e=>{if(e.target.closest(".pin"))return;const p=clientToNormalized(e.clientX,e.clientY);addUserPin(p.x,p.y)};stage.onclick=e=>{if(e.target.closest(".pin"))return}}
-function clientToNormalized(cx,cy){const wrap=$("#mapStage").getBoundingClientRect();const dx=(cx-(wrap.left+wrap.width/2)-panX)/zoom,dy=(cy-(wrap.top+wrap.height/2)-panY)/zoom;return{x:Math.max(0,Math.min(1,(dx+svgNatural.w/2)/svgNatural.w)),y:Math.max(0,Math.min(1,(dy+svgNatural.h/2)/svgNatural.h+USER_PIN_Y_BIAS))}}
-function addUserPin(x,y){const arr=loadPins();const p={id:crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random(),x,y,floor:currentFloor,stamp:currentStamp,note:$("#memoInput").value.trim(),created:Date.now()};arr.push(p);savePins(arr);selectedPinId=p.id;renderPins();showSelected()}
-function pinIcon(stamp){if(stamp.type==="exit")return `<div class="marker exit" style="color:${stamp.color}">🚪</div>`;if(stamp.type==="spawn")return `<div class="marker spawn" style="background:${stamp.color}"></div>`;if(stamp.type==="key")return `<div class="marker key" style="color:${stamp.color}">🔑</div>`;return `<div class="marker drop" style="background:${stamp.color}"><span>•</span></div>`}
-function renderPins(){const layer=$("#pinLayer");if(!layer)return;layer.innerHTML="";const bigMaps=["Factory","Ground Zero","Lighthouse","Streets of Tarkov"];const sizeCls=currentMap==="Customs"?"":(bigMaps.includes(currentMap)?" xlarge-label":" large-label");(EXIT_DATA[currentMap]||[]).filter(p=>exitVisible(p.t)).forEach(p=>{const stamp=getStamp(p.t),el=document.createElement("div");el.className="pin builtin"+sizeCls;el.style.left=(p.x*100)+"%";el.style.top=(p.y*100)+"%";el.innerHTML=`<div class="pin-inner">${pinIcon(stamp)}<span class="pin-label" style="color:${stamp.color}">${p.n}</span></div>`;layer.appendChild(el)});loadPins().filter(p=>!p.floor||p.floor===currentFloor).forEach(p=>{const stamp=getStamp(p.stamp),el=document.createElement("div");el.className="pin user-pin"+(p.id===selectedPinId?" selected":"");el.style.left=(p.x*100)+"%";el.style.top=(p.y*100)+"%";el.dataset.id=p.id;el.innerHTML=`${p.note?`<div class="pin-note">${esc(p.note)}</div>`:""}<div class="pin-inner">${pinIcon(stamp)}</div>`;el.onclick=e=>{e.stopPropagation();selectedPinId=p.id;showSelected();renderPins()};el.ondblclick=e=>e.stopPropagation();layer.appendChild(el)});showSelected()}
-function exitVisible(t){if(t==="pmc_exit")return $("#showPMC").checked;if(t==="scav_exit")return $("#showScav").checked;if(t==="shared_exit")return $("#showShared").checked;if(t==="coop_exit")return $("#showCoop").checked;return true}
-function showSelected(){const p=loadPins().find(x=>x.id===selectedPinId);if(!p){$("#selectedInfo").innerHTML="ピンを選択すると情報を表示します。";return}const s=getStamp(p.stamp);$("#selectedInfo").innerHTML=`<b>${esc(s.label)}</b><br>マップ: ${esc(currentMap)}<br>階層: ${esc(p.floor||currentFloor)}<br>メモ: ${esc(p.note||"なし")}`;$("#memoInput").value=p.note||""}
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function wireToolbar(){$$(".stamp-btn").forEach(b=>b.onclick=()=>{$$(".stamp-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");currentStamp=b.dataset.stamp});$("#saveMemo").onclick=()=>{if(!selectedPinId)return;const arr=loadPins(),p=arr.find(x=>x.id===selectedPinId);if(!p)return;p.note=$("#memoInput").value.trim();savePins(arr);renderPins()};$("#deletePin").onclick=()=>{if(!selectedPinId)return;let arr=loadPins().filter(x=>x.id!==selectedPinId);savePins(arr);selectedPinId=null;renderPins()};["#showPMC","#showScav","#showShared","#showCoop"].forEach(s=>$(s).onchange=renderPins)}
-async function loadTasks(){loadStates();try{const base="https://json.tarkov.dev/regular/";const [ja,en]=await Promise.all([fetch(base+"tasks_ja.json").then(r=>r.json()),fetch(base+"tasks.json").then(r=>r.json())]);const jaArr=Array.isArray(ja)?ja:(ja.tasks||[]),enArr=Array.isArray(en)?en:(en.tasks||[]);tasksJA=jaArr.map((t,i)=>({...t,_sourceIndex:i}));tasksEN=enArr;const enById=new Map(enArr.map(t=>[t.id||t._id,t]));tasks=tasksJA.map((t,i)=>({...t,_id:t.id||t._id,_en:enById.get(t.id||t._id)||{},_sourceIndex:i})).filter(t=>t._id);computeRanks(tasks);traders=[...new Set(tasks.map(t=>(t.trader?.name||t.traderName||"")).filter(Boolean))];renderTabs();renderTaskLists()}catch(e){$("#taskList").innerHTML='<div class="task-row">タスクデータを読み込めませんでした。</div>'}}
-function reqTaskIds(t){const out=[];const scan=v=>{if(!v)return;if(Array.isArray(v))return v.forEach(scan);if(typeof v!=="object")return;const type=(v.type||"").toLowerCase();if((type.includes("task")||v.task)&&v.task){const id=typeof v.task==="string"?v.task:(v.task.id||v.task._id);if(id)out.push(id)};if(v.target?.id&&type.includes("task"))out.push(v.target.id);Object.values(v).forEach(scan)};scan(t.taskRequirements||t.requirements||t._en?.taskRequirements||t._en?.requirements);return [...new Set(out)]}
-function computeRanks(list){const by=new Map(list.map(t=>[t._id,t])),memo=new Map(),vis=new Set();const rank=id=>{if(memo.has(id))return memo.get(id);if(vis.has(id))return 0;vis.add(id);const t=by.get(id);let r=0;if(t)for(const p of reqTaskIds(t))if(by.has(p))r=Math.max(r,rank(p)+1);vis.delete(id);memo.set(id,r);return r};list.forEach(t=>rank(t._id));taskRanks=memo;const sorted=[...list].sort((a,b)=>(memo.get(a._id)||0)-(memo.get(b._id)||0)||(a.minPlayerLevel||0)-(b.minPlayerLevel||0)||(a._sourceIndex??999999)-(b._sourceIndex??999999));taskTopo=new Map(sorted.map((t,i)=>[t._id,i]))}
-const orderOf=t=>taskTopo.get(t._id)??999999,rankOf=t=>taskRanks.get(t._id)??999999;
-const taskSort=(a,b)=>orderOf(a)-orderOf(b)||rankOf(a)-rankOf(b)||(a.minPlayerLevel||0)-(b.minPlayerLevel||0)||(a._sourceIndex??999999)-(b._sourceIndex??999999);
-function taskMapName(t){return t.map?.name||t.mapName||t.location?.name||""}
-function traderName(t){return t.trader?.name||t.traderName||"不明"}
-function relevantTasks(){return tasks.filter(t=>{const m=taskMapName(t);return !m||normMap(m)===normMap(currentMap)||String(t.name||"").toLowerCase().includes(currentMap.toLowerCase())})}
-function normMap(s){return String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"").replace("groundzero","groundzero")}
-function renderTabs(){const tabs=[{id:"all",label:"全タスク"},...traders.map(x=>({id:x,label:x}))];$("#taskTabs").innerHTML=tabs.map(t=>`<button class="tab ${taskTab===t.id?"active":""}" data-id="${esc(t.id)}">${esc(t.label)}</button>`).join("");$$("#taskTabs .tab").forEach(b=>b.onclick=()=>{taskTab=b.dataset.id;renderTabs();renderTaskLists()})}
-function renderTaskLists(){let list=relevantTasks();if(taskTab!=="all")list=list.filter(t=>traderName(t)===taskTab);if(!$("#showCompleted").checked)list=list.filter(t=>!states[t._id]?.completed);list=list.sort((a,b)=>{const sa=states[a._id]||{active:false,completed:false},sb=states[b._id]||{active:false,completed:false};if(sa.active!==sb.active)return sa.active?-1:1;return taskSort(a,b)});$("#taskList").innerHTML=list.slice(0,300).map(taskRow).join("")||'<div class="task-row">該当タスクなし</div>';$$(".task-name").forEach(el=>el.onclick=()=>openTask(el.dataset.id));$$(".active-check").forEach(el=>el.onchange=()=>setTaskState(el.dataset.id,"active",el.checked));$$(".complete-check").forEach(el=>el.onchange=()=>setTaskState(el.dataset.id,"completed",el.checked));renderSummary()}
-function taskRow(t){const s=states[t._id]||{};return `<div class="task-row"><div class="task-name" data-id="${esc(t._id)}">${esc(t.name||t._en?.name||"Task")}</div><div class="task-meta">${esc(traderName(t))} / Lv.${t.minPlayerLevel||0}</div><div class="task-checks"><label><input class="active-check" data-id="${esc(t._id)}" type="checkbox" ${s.active?"checked":""}>進行中</label><label><input class="complete-check" data-id="${esc(t._id)}" type="checkbox" ${s.completed?"checked":""}>完了</label></div></div>`}
-function setTaskState(id,key,val){const s=states[id]||(states[id]={active:false,completed:false});s[key]=val;if(key==="active"&&val)s.completed=false;if(key==="completed"&&val)s.active=false;saveStates();renderTaskLists()}
-function renderSummary(){const vals=Object.values(states);$("#taskSummary").innerHTML=`進行中 <span class="status-pill">${vals.filter(x=>x.active).length}</span><br>完了 <span class="status-pill">${vals.filter(x=>x.completed).length}</span>`}
-function objectiveText(t){const arr=t.objectives||t._en?.objectives||[];if(!arr.length)return "目的データなし";return arr.map((o,i)=>`${i+1}. ${o.description||o.type||"Objective"}`).join("<br>")}
-function extractKeys(t){const keys=[];const add=x=>{if(!x)return;if(Array.isArray(x))return x.forEach(add);if(typeof x==="string"){if(/key/i.test(x))keys.push(x);return}if(typeof x!=="object")return;const n=x.name||x.shortName||x.item?.name||x.item?.shortName;if(n&&/key/i.test(n))keys.push(n);Object.values(x).forEach(add)};add(t.neededKeys);add(t.requiredKeys);add(t._en?.neededKeys);add(t._en?.requiredKeys);add(t.objectives);add(t._en?.objectives);return [...new Set(keys)]}
-function wikiUrl(t){const q=encodeURIComponent(t.name||t._en?.name||"");return `https://wikiwiki.jp/eft/?cmd=search&word=${q}`}
-function openTask(id){const t=tasks.find(x=>x._id===id);if(!t)return;const keys=extractKeys(t);$("#taskModalTitle").textContent=t.name||t._en?.name||"Task";$("#taskModalBody").innerHTML=`<b>トレーダー:</b> ${esc(traderName(t))}<br><b>必要レベル:</b> ${t.minPlayerLevel||0}<h3>タスク目的</h3>${objectiveText(t)}${keys.length?`<h3>🔑 必要な鍵</h3>${keys.map(esc).join("<br>")}`:""}<h3>Wiki</h3><a href="${wikiUrl(t)}" target="_blank" rel="noopener">日本語Wikiで確認</a>`;$("#taskModalBg").classList.remove("hidden")}
-function wireTaskModal(){$("#taskModalClose").onclick=()=>$("#taskModalBg").classList.add("hidden");$("#taskModalBg").onclick=e=>{if(e.target.id==="taskModalBg")e.currentTarget.classList.add("hidden")};$("#showCompleted").onchange=renderTaskLists}
-function sendSync(msg){if(syncApplying)return;const data=JSON.stringify({...msg,room});connections.forEach(c=>{try{if(c.readyState==="open")c.send(data)}catch{}})}
-function syncSnapshot(){return {kind:"snapshot",room,map:currentMap,floor:currentFloor,states,pins:Object.fromEntries(MAPS.map(m=>[m.name,loadPins(m.name)]))}}
-function applySync(msg){if(!msg||msg.room!==room)return;syncApplying=true;try{if(msg.kind==="snapshot"){if(msg.states){states=msg.states;saveStates(false)};if(msg.pins)Object.entries(msg.pins).forEach(([m,p])=>savePins(p,m,false));if(msg.map&&MAPS.some(x=>x.name===msg.map)){currentMap=msg.map;currentFloor=mapCfg().floors.includes(msg.floor)?msg.floor:mapCfg().defaultFloor;$("#mapSelect").value=currentMap;fillFloors();loadMap();renderTaskLists();saveView(false)}}else if(msg.kind==="pins"&&msg.map){savePins(msg.pins||[],msg.map,false);if(msg.map===currentMap)renderPins()}else if(msg.kind==="taskStates"){states=msg.states||{};saveStates(false);renderTaskLists()}else if(msg.kind==="view"&&msg.map&&MAPS.some(x=>x.name===msg.map)){currentMap=msg.map;currentFloor=mapCfg().floors.includes(msg.floor)?msg.floor:mapCfg().defaultFloor;$("#mapSelect").value=currentMap;fillFloors();loadMap();renderTaskLists();saveView(false)}}finally{syncApplying=false}}
-function createPeer(isHost){cleanupPeer(false);room=isHost?makeRoomId():room;peer=new RTCPeerConnection({iceServers:[{urls:["stun:stun.l.google.com:19302","stun:stun1.l.google.com:19302"]}]});peer.ondatachannel=e=>attachChannel(e.channel);peer.onicecandidate=e=>{if(!e.candidate)updateInviteFromLocal()};return peer}
-function attachChannel(ch){connections.push(ch);ch.onopen=()=>{updateShareStatus();if(location.hash.includes("host"))ch.send(JSON.stringify(syncSnapshot()))};ch.onmessage=e=>{try{applySync(JSON.parse(e.data))}catch{}};ch.onclose=updateShareStatus}
-function makeRoomId(){return Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-5)}
-async function hostRoom(){createPeer(true);location.hash="host";const ch=peer.createDataChannel("tarkov-share");attachChannel(ch);const offer=await peer.createOffer();await peer.setLocalDescription(offer);updateShareStatus("接続情報を作成中…");await waitIce();const token=btoa(unescape(encodeURIComponent(JSON.stringify(peer.localDescription)))).replaceAll("+","-").replaceAll("/","_").replaceAll("=","");const u=new URL(location.href);u.searchParams.set("room",room);u.searchParams.set("offer",token);u.hash="";$("#inviteField").value=u.toString();updateShareStatus("共有ルーム待機中：招待リンクをフレンドに送ってください。")}
-async function joinFromUrl(){const u=new URL(location.href),r=u.searchParams.get("room"),offerToken=u.searchParams.get("offer");if(!r||!offerToken)return;room=r;createPeer(false);const chPromise=new Promise(res=>peer.ondatachannel=e=>{attachChannel(e.channel);res(e.channel)});const offer=JSON.parse(decodeURIComponent(escape(atob(offerToken.replaceAll("-","+").replaceAll("_","/")+"===".slice((offerToken.length+3)%4)))));await peer.setRemoteDescription(offer);const answer=await peer.createAnswer();await peer.setLocalDescription(answer);await waitIce();const ans=btoa(unescape(encodeURIComponent(JSON.stringify(peer.localDescription)))).replaceAll("+","-").replaceAll("/","_").replaceAll("=","");const answerUrl=new URL(location.href);answerUrl.searchParams.delete("offer");answerUrl.searchParams.set("answer",ans);$("#inviteField").value=answerUrl.toString();updateShareStatus("参加情報を作成しました。このURLをルーム作成者へ1回だけ返してください。")}
-async function acceptAnswerFromUrl(){const u=new URL(location.href),ans=u.searchParams.get("answer"),r=u.searchParams.get("room");if(!ans||!r||!peer||room!==r)return false;const answer=JSON.parse(decodeURIComponent(escape(atob(ans.replaceAll("-","+").replaceAll("_","/")+"===".slice((ans.length+3)%4)))));await peer.setRemoteDescription(answer);updateShareStatus();return true}
-function waitIce(){return new Promise(res=>{if(peer.iceGatheringState==="complete")return res();const f=()=>{if(peer.iceGatheringState==="complete"){peer.removeEventListener("icegatheringstatechange",f);res()}};peer.addEventListener("icegatheringstatechange",f);setTimeout(res,3500)})}
-function updateInviteFromLocal(){}
-function updateShareStatus(text){if(text)return $("#shareStatus").textContent=text;const n=connections.filter(c=>c.readyState==="open").length;$("#shareStatus").textContent=room?`共有中：${n}人接続 / ルーム ${room}`:"共有ルーム未作成"}
-function cleanupPeer(clear=true){try{connections.forEach(c=>c.close())}catch{}connections=[];try{peer?.close()}catch{}peer=null;if(clear){room=null;$("#inviteField").value="";history.replaceState(null,"",location.pathname+location.search.replace(/([?&])(room|offer|answer)=[^&]*/g,"").replace(/[?&]$/,""));updateShareStatus()}}
-function wireShare(){$("#shareOpen").onclick=()=>$("#shareModalBg").classList.remove("hidden");$("#shareClose").onclick=()=>$("#shareModalBg").classList.add("hidden");$("#shareModalBg").onclick=e=>{if(e.target.id==="shareModalBg")e.currentTarget.classList.add("hidden")};$("#createRoom").onclick=async()=>{if(location.protocol==="file:"){updateShareStatus("Web公開版から共有してください。file:// のリンクはフレンドに送れません。");return}try{await hostRoom()}catch(e){updateShareStatus("共有ルーム作成に失敗しました: "+e.message)}};$("#copyInvite").onclick=async()=>{const v=$("#inviteField").value;if(!v)return;await navigator.clipboard.writeText(v).catch(()=>{});updateShareStatus("招待リンクをコピーしました。")};$("#endShare").onclick=()=>cleanupPeer(true)}
-async function initShareUrl(){const u=new URL(location.href);if(u.searchParams.has("offer")){$("#shareModalBg").classList.remove("hidden");await joinFromUrl()}else if(u.searchParams.has("answer")){$("#shareModalBg").classList.remove("hidden");updateShareStatus("ルーム作成者側で、このURLを開いて接続を完了してください。")}}
-window.addEventListener("hashchange",()=>{});
-window.addEventListener("resize",()=>{if(document.querySelector(".map-content")){zoom=fitZoom();panX=panY=0;updateTransform()}});
-(async function init(){restoreView();setupSelects();wireToolbar();wireTaskModal();wireShare();await loadMap();await loadTasks();await initShareUrl();})();
+(() => {
+  const MAPS = [
+    {name:"Customs",file:"Customs.svg",floors:["Ground_Level","Dorm2_1F","Dorm2_2F","Dorm3_1F","Dorm3_2F","Dorm3_3F"],defaultFloor:"Ground_Level"},
+    {name:"Factory",file:"Factory.svg",floors:["Basement","Ground_Floor","First_Floor","Second_Floor"],defaultFloor:"Ground_Floor"},
+    {name:"Ground Zero",file:"GroundZero.svg",floors:["Ground_Level","Underground_Level","First_Floor","Second_Floor","Third_Floor"],defaultFloor:"Ground_Level"},
+    {name:"Interchange",file:"Interchange.svg",floors:["Ground_Level","First_Floor","Second_Floor"],defaultFloor:"Ground_Level"},
+    {name:"The Lab",file:"Labs.svg",floors:["Technical_Level","First_Level","Second_Level"],defaultFloor:"Technical_Level"},
+    {name:"Lighthouse",file:"Lighthouse.svg",floors:["Ground_Level"],defaultFloor:"Ground_Level"},
+    {name:"Reserve",file:"Reserve.svg",floors:["Bunkers","Ground_Level"],defaultFloor:"Ground_Level"},
+    {name:"Shoreline",file:"Shoreline.svg",floors:["Ground_Level","Underground_Level","First_Floor","Second_Floor","Third_Floor"],defaultFloor:"Ground_Level"},
+    {name:"Streets of Tarkov",file:"StreetsOfTarkov.svg",floors:["Ground_Level","Underground_Level","First_Floor","Second_Floor","Third_Floor","Fourth_Floor","Fifth_Floor"],defaultFloor:"Ground_Level"},
+    {name:"Terminal",file:"Terminal.svg",floors:["Ground_Level"],defaultFloor:"Ground_Level"},
+    {name:"Woods",file:"Woods.svg",floors:["Ground_Level"],defaultFloor:"Ground_Level"}
+  ];
+  const STAMPS = [
+    {id:"pmc_spawn", label:"PMCスポーン", color:"#35a8d4", type:"spawn"},
+    {id:"key_room", label:"鍵部屋", color:"#6677d9", type:"key"},
+    {id:"task", label:"タスク", color:"#9c63d7", type:"task"},
+    {id:"purpose", label:"目的", color:"#8a949e", type:"purpose"},
+  ];
+  const EXTRA_STAMPS = [{id:"coop_exit", label:"共同出口", color:"#b675e4", type:"exit"}];
+  const BUILTIN_EXITS = {
+    "Customs":[
+      // PMC (green) — screenshot 36
+      {type:"pmc_exit",label:"Railroad Passage (Flare)",x:0.5244,y:0.0100,labelPos:"right"},
+      {type:"pmc_exit",label:"Trailer Park",x:0.9454,y:0.1540,labelPos:"left"},
+      {type:"pmc_exit",label:"Old Gas Station",x:0.3671,y:0.2325,labelPos:"left"},
+      {type:"pmc_exit",label:"ZB-013",x:0.4674,y:0.3034,labelPos:"right"},
+      {type:"pmc_exit",label:"ZB-1011",x:0.0580,y:0.3195,labelPos:"right"},
+      {type:"pmc_exit",label:"Smugglers Bunker (ZB-1012)",x:0.2185,y:0.3688,labelPos:"right"},
+      {type:"pmc_exit",label:"Smugglers' Boat",x:0.6927,y:0.7903,labelPos:"right"},
+      {type:"pmc_exit",label:"Dorms V-Ex",x:0.4859,y:0.9509,labelPos:"right"},
+      // Common (blue)
+      {type:"shared_exit",label:"RUAF Roadblock",x:0.6750,y:0.3130,labelPos:"right"},
+      {type:"shared_exit",label:"Crossroads",x:0.9653,y:0.4183,labelPos:"left"},
+      // Co-op (purple)
+      {type:"coop_exit",label:"Boiler Room Basement (Co-op)",x:0.5608,y:0.4953,labelPos:"right"},
+      // SCAV (orange) — screenshot 37
+      {type:"scav_exit",label:"Trailer Park Worker's Shack",x:0.8850,y:0.1540,labelPos:"right"},
+      {type:"scav_exit",label:"Railroad to Tarkov",x:0.8060,y:0.1898,labelPos:"right"},
+      {type:"scav_exit",label:"Old Gas Station Gate",x:0.3753,y:0.1968,labelPos:"left"},
+      {type:"scav_exit",label:"Factory Far Corner",x:0.0484,y:0.2903,labelPos:"right"},
+      {type:"scav_exit",label:"Warehouse 17",x:0.6068,y:0.4509,labelPos:"right"},
+      {type:"scav_exit",label:"Administration Gate",x:0.0312,y:0.4770,labelPos:"right"},
+      {type:"scav_exit",label:"Scav Checkpoint",x:0.0484,y:0.5266,labelPos:"right"},
+      {type:"scav_exit",label:"Warehouse 4",x:0.3369,y:0.5279,labelPos:"right"},
+      {type:"scav_exit",label:"Factory Shacks",x:0.4633,y:0.5802,labelPos:"right"},
+      {type:"scav_exit",label:"Railroad to Port",x:0.7929,y:0.6559,labelPos:"right"},
+      {type:"scav_exit",label:"Sniper Roadblock",x:0.6405,y:0.7969,labelPos:"right"},
+      {type:"scav_exit",label:"Military Base CP",x:0.0553,y:0.7982,labelPos:"right"},
+      {type:"scav_exit",label:"Passage Between Rocks",x:0.1535,y:0.9274,labelPos:"right"},
+      {type:"scav_exit",label:"Old Road Gate",x:0.4852,y:0.9522,labelPos:"right"},
+      {type:"scav_exit",label:"Railroad to Military Base",x:0.2002,y:0.9653,labelPos:"right"}
+    ],
+
+    "Ground Zero":[
+      // screenshot 38
+      {type:"pmc_exit",label:"Mira Ave (Flare)",x:0.0873,y:0.1732,labelPos:"right"},
+      {type:"pmc_exit",label:"Police Cordon V-Ex",x:0.7708,y:0.4894,labelPos:"left"},
+      {type:"pmc_exit",label:"Tartowers Sales Office",x:0.1656,y:0.5267,labelPos:"right"},
+      {type:"shared_exit",label:"Emercom Checkpoint",x:0.2781,y:0.0518,labelPos:"right"},
+      {type:"shared_exit",label:"Nakatani Basement Stairs",x:0.7610,y:0.9421,labelPos:"left"},
+      {type:"coop_exit",label:"Scav Checkpoint (Co-op)",x:0.6419,y:0.0891,labelPos:"right"}
+    ],
+
+    "Factory":[
+      // screenshot 39
+      {type:"pmc_exit",label:"Cellars",x:0.7460,y:0.0040,labelPos:"right"},
+      {type:"pmc_exit",label:"Smugglers Passage",x:0.7410,y:0.1990,labelPos:"right"},
+      {type:"pmc_exit",label:"Courtyard Gate",x:0.0225,y:0.3877,labelPos:"left"},
+      {type:"pmc_exit",label:"Med Tent Gate",x:0.9560,y:0.6480,labelPos:"left"},
+      {type:"pmc_exit",label:"Gate 0",x:0.0650,y:0.9400,labelPos:"right"},
+      {type:"shared_exit",label:"Gate 3",x:0.0954,y:0.1237,labelPos:"right"},
+      {type:"scav_exit",label:"Office Window",x:0.2448,y:0.4330,labelPos:"right"},
+      {type:"scav_exit",label:"Camera Bunker Door",x:0.2426,y:0.6877,labelPos:"right"}
+    ],
+
+    "Woods":[
+      // PMC/common/co-op — screenshot 40
+      {type:"pmc_exit",label:"Bridge V-Ex",x:0.8050,y:0.2945,labelPos:"right"},
+      {type:"pmc_exit",label:"Power Line Passage (Flare)",x:0.0725,y:0.5983,labelPos:"left"},
+      {type:"pmc_exit",label:"Northern UN Roadblock",x:0.8540,y:0.6335,labelPos:"left"},
+      {type:"pmc_exit",label:"ZB-016",x:0.7099,y:0.6691,labelPos:"right"},
+      {type:"pmc_exit",label:"ZB-014",x:0.1480,y:0.7033,labelPos:"right"},
+      {type:"pmc_exit",label:"Railway Bridge to Tarkov",x:0.9392,y:0.7564,labelPos:"left"},
+      {type:"pmc_exit",label:"RUAF Gate",x:0.5431,y:0.9890,labelPos:"right"},
+      {type:"shared_exit",label:"UN Roadblock",x:0.8295,y:0.8940,labelPos:"left"},
+      {type:"shared_exit",label:"Outskirts",x:0.2147,y:0.9262,labelPos:"right"},
+      {type:"coop_exit",label:"Friendship Bridge (Co-op)",x:0.3859,y:0.0406,labelPos:"right"},
+      // SCAV — screenshot 41
+      {type:"scav_exit",label:"Scav Bunker",x:0.2998,y:0.1420,labelPos:"right"},
+      {type:"scav_exit",label:"Mountain Stash",x:0.5893,y:0.5040,labelPos:"right"},
+      {type:"scav_exit",label:"Eastern Rocks",x:0.8250,y:0.6361,labelPos:"right"},
+      {type:"scav_exit",label:"Old Railway Depot",x:0.8185,y:0.7930,labelPos:"right"},
+      {type:"scav_exit",label:"Boat",x:0.3299,y:0.8200,labelPos:"right"},
+      {type:"scav_exit",label:"Scav House",x:0.1706,y:0.8401,labelPos:"right"},
+      {type:"scav_exit",label:"Dead Man's Place",x:0.3170,y:0.8519,labelPos:"right"},
+      {type:"scav_exit",label:"RUAF Roadblock",x:0.5398,y:0.9675,labelPos:"right"}
+    ],
+
+    "Interchange":[
+      // screenshot 42
+      {type:"pmc_exit",label:"Power Station V-Ex",x:0.8237,y:0.0945,labelPos:"left"},
+      {type:"pmc_exit",label:"Hole in the Fence",x:0.7935,y:0.5219,labelPos:"right"},
+      {type:"pmc_exit",label:"Saferoom Exfil",x:0.6259,y:0.6269,labelPos:"right"},
+      {type:"shared_exit",label:"Railway Exfil",x:0.1213,y:0.0139,labelPos:"right"},
+      {type:"shared_exit",label:"Emercom Checkpoint",x:0.8915,y:0.8350,labelPos:"left"},
+      {type:"coop_exit",label:"Scav Camp (Co-op)",x:0.3091,y:0.5304,labelPos:"right"}
+    ],
+
+    "Shoreline":[
+      // PMC/common/co-op — screenshot 43
+      {type:"pmc_exit",label:"Climber's Trail",x:0.5700,y:0.0294,labelPos:"right"},
+      {type:"pmc_exit",label:"Mountain Bunker",x:0.6663,y:0.0363,labelPos:"right"},
+      {type:"pmc_exit",label:"Road to North V-Ex",x:0.4575,y:0.0548,labelPos:"right"},
+      {type:"pmc_exit",label:"Path to Lighthouse",x:0.0348,y:0.1669,labelPos:"right"},
+      {type:"pmc_exit",label:"Railway Bridge",x:0.9757,y:0.7554,labelPos:"left"},
+      {type:"pmc_exit",label:"Tunnel",x:0.1070,y:0.7040,labelPos:"right"},
+      {type:"pmc_exit",label:"Pier Boat",x:0.5180,y:0.9250,labelPos:"right"},
+      {type:"shared_exit",label:"Road to Customs",x:0.8674,y:0.4340,labelPos:"right"},
+      {type:"coop_exit",label:"Smugglers' Path (Co-op)",x:0.7852,y:0.1669,labelPos:"left"},
+      // SCAV — screenshot 44
+      {type:"scav_exit",label:"Admin Basement",x:0.4842,y:0.2768,labelPos:"right"},
+      {type:"scav_exit",label:"East Wing Gym Entrance",x:0.5095,y:0.3276,labelPos:"right"},
+      {type:"scav_exit",label:"Ruined Road",x:0.1130,y:0.7190,labelPos:"right"},
+      {type:"scav_exit",label:"Lighthouse",x:0.5550,y:0.9300,labelPos:"right"}
+    ],
+
+    "Reserve":[
+      // PMC/common/co-op — screenshot 45
+      {type:"pmc_exit",label:"Exit to Woods",x:0.4276,y:0.0953,labelPos:"right"},
+      {type:"pmc_exit",label:"D-2",x:0.6958,y:0.8295,labelPos:"right"},
+      {type:"pmc_exit",label:"Cliff Descent",x:0.5059,y:0.9170,labelPos:"right"},
+      {type:"shared_exit",label:"Bunker Hermetic Door",x:0.3847,y:0.1557,labelPos:"right"},
+      {type:"shared_exit",label:"Armored Train",x:0.2441,y:0.2394,labelPos:"right"},
+      {type:"shared_exit",label:"Sewer Manhole",x:0.4222,y:0.6741,labelPos:"right"},
+      {type:"coop_exit",label:"Scav Lands (Co-op)",x:0.7065,y:0.2480,labelPos:"right"},
+      // SCAV — screenshot 46
+      {type:"scav_exit",label:"Heating Pipe",x:0.5499,y:0.1754,labelPos:"right"},
+      {type:"scav_exit",label:"Depot Hermetic Door",x:0.2849,y:0.2911,labelPos:"right"},
+      {type:"scav_exit",label:"Hole in the Wall by the Mountains",x:0.9329,y:0.6200,labelPos:"left"},
+      {type:"scav_exit",label:"Checkpoint Fence",x:0.3847,y:0.7750,labelPos:"right"}
+    ],
+
+    "Lighthouse":[
+      // PMC/common/co-op — screenshot 47
+      {type:"pmc_exit",label:"Northern Checkpoint",x:0.3780,y:0.0091,labelPos:"left"},
+      {type:"pmc_exit",label:"Road to Military Base V-Ex",x:0.7946,y:0.1298,labelPos:"left"},
+      {type:"pmc_exit",label:"Passage by the Lake",x:0.8244,y:0.2579,labelPos:"left"},
+      {type:"pmc_exit",label:"Mountain Pass",x:0.6478,y:0.5855,labelPos:"right"},
+      {type:"pmc_exit",label:"Southern Road",x:0.7649,y:0.8355,labelPos:"right"},
+      {type:"shared_exit",label:"Armored Train",x:0.4792,y:0.0768,labelPos:"right"},
+      {type:"shared_exit",label:"Path to Shoreline",x:0.8284,y:0.5177,labelPos:"left"},
+      {type:"coop_exit",label:"Side Tunnel (Co-op)",x:0.5486,y:0.7751,labelPos:"right"},
+      // SCAV — screenshot 48
+      {type:"scav_exit",label:"Industrial Zone Gates",x:0.6300,y:0.1236,labelPos:"right"},
+      {type:"scav_exit",label:"Scav Hideout at the Grotto",x:0.3145,y:0.3047,labelPos:"right"},
+      {type:"scav_exit",label:"Hideout Under the Landing Stage",x:0.3601,y:0.7567,labelPos:"right"},
+      {type:"scav_exit",label:"Southern Road Landslide",x:0.7510,y:0.8355,labelPos:"right"}
+    ],
+
+    "Streets of Tarkov":[
+      // PMC/co-op — screenshot 49
+      {type:"pmc_exit",label:"Expo Checkpoint",x:0.1720,y:0.2317,labelPos:"left"},
+      {type:"pmc_exit",label:"Stylobate Building Elevator",x:0.5908,y:0.2715,labelPos:"right"},
+      {type:"pmc_exit",label:"Klimov Street (Flare)",x:0.9324,y:0.4128,labelPos:"left"},
+      {type:"pmc_exit",label:"Smugglers' Basement",x:0.4019,y:0.4219,labelPos:"right"},
+      {type:"pmc_exit",label:"Sewer River",x:0.9620,y:0.6070,labelPos:"left"},
+      {type:"pmc_exit",label:"Collapsed Crane",x:0.1839,y:0.6941,labelPos:"right"},
+      {type:"pmc_exit",label:"Damaged House",x:0.9360,y:0.7818,labelPos:"left"},
+      {type:"pmc_exit",label:"Crash Site",x:0.0327,y:0.8569,labelPos:"right"},
+      {type:"pmc_exit",label:"Primorsky Ave Taxi V-Ex",x:0.5240,y:0.9253,labelPos:"left"},
+      {type:"pmc_exit",label:"Courtyard",x:0.7860,y:0.9640,labelPos:"right"},
+      {type:"coop_exit",label:"Pinewood Basement (Co-op)",x:0.6999,y:0.4401,labelPos:"left"},
+      // SCAV — screenshot 50
+      {type:"scav_exit",label:"Cardinal Apartment Complex Parking",x:0.3568,y:0.1633,labelPos:"right"},
+      {type:"scav_exit",label:"Klimov Shopping Mall Exit",x:0.7769,y:0.3535,labelPos:"left"},
+      {type:"scav_exit",label:"Near Kamchatskaya Arch",x:0.1156,y:0.4196,labelPos:"left"},
+      {type:"scav_exit",label:"Entrance to Catacombs",x:0.9340,y:0.6360,labelPos:"left"},
+      {type:"scav_exit",label:"Sewer Manhole",x:0.0894,y:0.7755,labelPos:"right"},
+      {type:"scav_exit",label:"Ventilation Shaft",x:0.7144,y:0.8797,labelPos:"right"}
+    ]
+  };
+  const TRADER_ORDER = ["Prapor","Therapist","Fence","Skier","Peacekeeper","Mechanic","Ragman","Jaeger","Lightkeeper","Ref"];
+  const $ = (id) => document.getElementById(id);
+
+  const els = {
+    mapList:$("mapList"), currentMapTitle:$("currentMapTitle"), currentMapInfo:$("currentMapInfo"),
+    mapStage:$("mapStage"), content:$("content"), svgHost:$("svgHost"), customFloorHost:$("customFloorHost"), mapImage:$("mapImage"), placeholder:$("placeholder"), pinLayer:$("pinLayer"), floorBar:$("floorBar"),
+    stampbar:$("stampbar"), pinNoteInput:$("pinNoteInput"), saveNoteBtn:$("saveNoteBtn"), deletePinBtn:$("deletePinBtn"),
+    zoomOut:$("zoomOut"), zoomIn:$("zoomIn"), zoomReset:$("zoomReset"),
+    taskList:$("taskList"), traderTaskList:$("traderTaskList"), taskSearch:$("taskSearch"), traderTaskSearch:$("traderTaskSearch"),
+    traderGrid:$("traderGrid"), filterAllBtn:$("filterAllBtn"), filterMapBtn:$("filterMapBtn"),
+    showDoneToggle:$("showDoneToggle"), showDoneTraderToggle:$("showDoneTraderToggle"), apiStatus:$("apiStatus"),
+    rightPanel:$("rightPanel"), mobileTasksBtn:$("mobileTasksBtn"), taskModal:$("taskModal"),
+    taskModalTitle:$("taskModalTitle"), taskModalMeta:$("taskModalMeta"), taskObjectives:$("taskObjectives"),
+    taskWiki:$("taskWiki"), taskKeys:$("taskKeys"), taskKeysList:$("taskKeysList"), closeTaskModal:$("closeTaskModal"), toggleExitsBtn:$("toggleExitsBtn"),
+    pmcExitChk:$("pmcExitChk"), scavExitChk:$("scavExitChk"), sharedExitChk:$("sharedExitChk"), coopExitChk:$("coopExitChk"),
+    shareRoomBtn:$("shareRoomBtn"), shareModal:$("shareModal"), closeShareModal:$("closeShareModal"), shareStatus:$("shareStatus"),
+    createRoomBtn:$("createRoomBtn"), copyInviteBtn:$("copyInviteBtn"), leaveRoomBtn:$("leaveRoomBtn"), inviteLink:$("inviteLink")
+  };
+
+  let currentMap = "Customs"; let selectedFloor = "Ground_Level";
+  let selectedStamp = "task";
+  let selectedPinId = null;
+  let tasks = [];
+  let taskIndex = new Map();
+  let progressionRank = new Map();
+  let topoOrder = new Map();
+  let showBuiltInExits = true;
+  let builtInExitFilters = {pmc_exit:true, scav_exit:true, shared_exit:true, coop_exit:true};
+  let selectedTrader = "Prapor";
+  let allFilterMode = "all";
+  let imageW = 1600, imageH = 1100;
+  let scale = 1, panX = 0, panY = 0;
+  let mapDragging = false, dragStart = null, pinDragging = null;
+
+  // Friend sharing (PeerJS / WebRTC)
+  let peer = null;
+  let peerConnections = [];
+  let isRoomHost = false;
+  let hostPeerId = null;
+  let suppressSync = false;
+
+
+  const escapeHtml = (v="") => String(v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+  const pinStorageKey = () => "tarkovSharedPins.v3." + currentMap;
+  const taskStateKey = () => "tarkovTaskStates.v3";
+
+  function mapAlias(name){
+    const s = String(name||"").toLowerCase();
+    if(s.includes("custom")) return "Customs";
+    if(s.includes("factory")) return "Factory";
+    if(s.includes("ground zero")) return "Ground Zero";
+    if(s.includes("interchange")) return "Interchange";
+    if(s.includes("lab") && !s.includes("labyrinth")) return "The Lab";
+    if(s.includes("lighthouse")) return "Lighthouse";
+    if(s.includes("reserve")) return "Reserve";
+    if(s.includes("shoreline")) return "Shoreline";
+    if(s.includes("streets")) return "Streets of Tarkov";
+    if(s.includes("terminal")) return "Terminal";
+    if(s.includes("woods")) return "Woods";
+    return name || "";
+  }
+  const BUILTIN_EXIT_STAMPS = {
+    pmc_exit:{id:"pmc_exit", label:"PMC出口", color:"#72d46b", type:"exit"},
+    scav_exit:{id:"scav_exit", label:"SCAV出口", color:"#ef9b35", type:"exit"},
+    shared_exit:{id:"shared_exit", label:"共通出口", color:"#61a9ff", type:"exit"},
+    coop_exit:{id:"coop_exit", label:"共同出口", color:"#b675e4", type:"exit"}
+  };
+  const getStamp = (id) => BUILTIN_EXIT_STAMPS[id] || [...STAMPS, ...EXTRA_STAMPS].find(s => s.id === id) || STAMPS[0];
+
+  function pinSvg(stamp, size=26){
+    const c = stamp.color;
+    let svg = "";
+    if(stamp.type === "exit"){
+      svg = '<svg class="stamp-icon" viewBox="0 0 32 24" width="'+size+'" height="'+Math.round(size*24/32)+'"><rect x="1.3" y="1.3" width="29.4" height="21.4" rx="2.2" fill="#ffffff" stroke="'+c+'" stroke-width="2.6"/><rect x="2.7" y="2.7" width="26.6" height="18.6" rx="1.2" fill="'+c+'"/><rect x="6.1" y="5.0" width="8.0" height="11.0" fill="#ffffff"/><circle cx="13.6" cy="8.4" r="1.6" fill="#ffffff"/><path d="M14.9 11.2h4.2l3.8 6.4" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M14.9 11.2l-3.1 3.6" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M18.4 13.0l2.0 3.8" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M12.1 18.2h12.1" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/></svg>';
+    } else if(stamp.type === "spawn"){
+      svg = '<svg class="stamp-icon" viewBox="0 0 26 26" width="'+size+'" height="'+size+'"><circle cx="13" cy="13" r="9.5" fill="none" stroke="'+c+'" stroke-width="3"/><circle cx="13" cy="13" r="2.8" fill="'+c+'"/><path d="M13 1.8v5.2M13 19v5.2M1.8 13H7M19 13h5.2" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round"/></svg>';
+    } else if(stamp.type === "key"){
+      svg = '<svg class="stamp-icon" viewBox="0 0 32 18" width="'+size+'" height="'+Math.round(size*18/32)+'"><circle cx="7" cy="9" r="4.8" fill="none" stroke="'+c+'" stroke-width="3"/><path d="M11.5 9H28v3h-4v3h-3v-3h-4v-3z" fill="'+c+'"/></svg>';
+    } else if(stamp.type === "task"){
+      const base = '<path d="M16 1.6C9.9 1.6 5 6.5 5 12.6c0 8.1 8.7 15.4 10 16.4.6.5 1.5.5 2.1 0 1.3-1 10-8.3 10-16.4C27 6.5 22.1 1.6 16 1.6z" fill="'+c+'" stroke="#ffffff" stroke-width="1.2" />';
+      const icon = '<rect x="14.6" y="7.4" width="2.8" height="7.1" rx="1.1" fill="#ffffff"/><circle cx="16" cy="17.1" r="1.6" fill="#ffffff"/>';
+      svg = '<svg class="stamp-icon" viewBox="0 0 32 36" width="'+size+'" height="'+Math.round(size*36/32)+'">'+base+icon+'</svg>';
+    } else {
+      const base = '<path d="M16 1.6C9.9 1.6 5 6.5 5 12.6c0 8.1 8.7 15.4 10 16.4.6.5 1.5.5 2.1 0 1.3-1 10-8.3 10-16.4C27 6.5 22.1 1.6 16 1.6z" fill="'+c+'" stroke="#ffffff" stroke-width="1.2" />';
+      const icon = '<circle cx="16" cy="12.1" r="4" fill="#ffffff"/><circle cx="16" cy="12.1" r="1.6" fill="'+c+'"/>';
+      svg = '<svg class="stamp-icon" viewBox="0 0 32 36" width="'+size+'" height="'+Math.round(size*36/32)+'">'+base+icon+'</svg>';
+    }
+    return svg;
+  }
+
+  function renderMapButtons(){
+    els.mapList.innerHTML = MAPS.map(m => '<button class="map-btn '+(m.name===currentMap?'active':'')+'" data-map="'+escapeHtml(m.name)+'">'+escapeHtml(m.name)+'</button>').join("");
+    els.mapList.querySelectorAll("[data-map]").forEach(btn => btn.onclick = () => setMap(btn.dataset.map));
+  }
+  function renderStampBar(){
+    els.stampbar.innerHTML = STAMPS.map(s => '<button class="stamp '+(s.id===selectedStamp?'active':'')+'" data-stamp="'+s.id+'">'+pinSvg(s,17)+'<span>'+escapeHtml(s.label)+'</span></button>').join("");
+    els.stampbar.querySelectorAll("[data-stamp]").forEach(btn => btn.onclick = () => { selectedStamp = btn.dataset.stamp; renderStampBar(); });
+  }
+
+
+  function markLocalSaved(){
+    try{ localStorage.setItem("tarkov_shared_map_last_saved", String(Date.now())); }catch{}
+  }
+  function getPins(){ try { return JSON.parse(localStorage.getItem(pinStorageKey()) || "[]"); } catch { return []; } }
+  function savePins(pins){
+    localStorage.setItem(pinStorageKey(), JSON.stringify(pins)); markLocalSaved();
+    if(!suppressSync) sendShared({type:"pins", map:currentMap, pins});
+  }
+  function getTaskStates(){ try { return JSON.parse(localStorage.getItem(taskStateKey()) || "{}"); } catch { return {}; } }
+  function saveTaskStates(states){
+    localStorage.setItem(taskStateKey(), JSON.stringify(states)); markLocalSaved();
+    if(!suppressSync) sendShared({type:"tasks", states});
+  }
+  function allPinsSnapshot(){
+    const out={};
+    for(const m of MAPS){
+      try{ out[m.name]=JSON.parse(localStorage.getItem("tarkovSharedPins.v3."+m.name)||"[]"); }catch{ out[m.name]=[]; }
+    }
+    return out;
+  }
+  function sharedSnapshot(){ return {type:"snapshot", pins:allPinsSnapshot(), tasks:getTaskStates(), map:currentMap, floor:selectedFloor}; }
+  function activeConnections(){ return peerConnections.filter(c=>c && c.open); }
+  function setShareStatus(textValue, mode=""){
+    els.shareStatus.textContent=textValue;
+    els.shareRoomBtn.classList.toggle("connected", mode==="connected");
+    els.shareRoomBtn.classList.toggle("connecting", mode==="connecting");
+    els.shareRoomBtn.textContent = mode==="connected" ? "共有中" : (mode==="connecting" ? "接続中…" : "フレンド共有");
+  }
+  function inviteUrl(id){
+    const u=new URL(location.href); u.searchParams.set("room", id); u.hash=""; return u.toString();
+  }
+  function sendShared(message, except=null){
+    for(const c of activeConnections()){ if(c!==except){ try{ c.send(message); }catch{} } }
+  }
+  function applySharedMessage(msg, source=null){
+    if(!msg || typeof msg!=="object") return;
+    suppressSync=true;
+    try{
+      if(msg.type==="snapshot"){
+        if(msg.pins && typeof msg.pins==="object") for(const [mapName,pins] of Object.entries(msg.pins)){ localStorage.setItem("tarkovSharedPins.v3."+mapName, JSON.stringify(Array.isArray(pins)?pins:[])); }
+        if(msg.tasks && typeof msg.tasks==="object") localStorage.setItem(taskStateKey(), JSON.stringify(msg.tasks));
+        if(msg.map && MAPS.some(m=>m.name===msg.map)){
+          setMap(msg.map, true);
+          if(msg.floor){ selectedFloor=msg.floor; applyFloorVisibility(); renderFloorBar(); }
+        }else{ renderPins(); renderTaskLists(); }
+      }else if(msg.type==="pins" && msg.map){
+        localStorage.setItem("tarkovSharedPins.v3."+msg.map, JSON.stringify(Array.isArray(msg.pins)?msg.pins:[]));
+        if(msg.map===currentMap) renderPins();
+      }else if(msg.type==="tasks"){
+        localStorage.setItem(taskStateKey(), JSON.stringify(msg.states||{})); renderTaskLists();
+      }else if(msg.type==="nav" && msg.map && MAPS.some(m=>m.name===msg.map)){
+        setMap(msg.map, true);
+        if(msg.floor){ selectedFloor=msg.floor; applyFloorVisibility(); renderFloorBar(); }
+      }
+      markLocalSaved();
+    }finally{ suppressSync=false; }
+    if(isRoomHost && source) sendShared(msg, source);
+  }
+  function wireConnection(conn, incoming=false){
+    if(!conn) return;
+    peerConnections.push(conn);
+    conn.on("open", ()=>{
+      setShareStatus("共有中：フレンドとリアルタイム同期しています。", "connected");
+      els.leaveRoomBtn.disabled=false;
+      if(isRoomHost) conn.send(sharedSnapshot());
+    });
+    conn.on("data", data=>applySharedMessage(data, conn));
+    conn.on("close", ()=>{
+      peerConnections=peerConnections.filter(c=>c!==conn);
+      if(!activeConnections().length && !isRoomHost) setShareStatus("共有相手との接続が終了しました。");
+      else if(isRoomHost) setShareStatus("共有ルーム待機中：招待リンクからフレンドが参加できます。", "connecting");
+    });
+    conn.on("error", ()=>setShareStatus("共有接続でエラーが発生しました。もう一度招待リンクを開いてください。"));
+  }
+  function destroySharing(){
+    for(const c of peerConnections){ try{c.close();}catch{} }
+    peerConnections=[];
+    if(peer){ try{peer.destroy();}catch{} }
+    peer=null; isRoomHost=false; hostPeerId=null;
+    els.inviteLink.value=""; els.copyInviteBtn.disabled=true; els.leaveRoomBtn.disabled=true; els.createRoomBtn.disabled=false;
+    setShareStatus("共有ルームに接続していません。");
+    const u=new URL(location.href); u.searchParams.delete("room"); history.replaceState(null,"",u);
+  }
+  function createShareRoom(){
+    if(typeof Peer==="undefined"){ setShareStatus("共有機能の読み込みに失敗しました。インターネット接続を確認してください。"); return; }
+    destroySharing();
+    isRoomHost=true; els.createRoomBtn.disabled=true; setShareStatus("共有ルームを作成中…", "connecting");
+    peer=new Peer();
+    peer.on("open", id=>{ hostPeerId=id; const link=inviteUrl(id); els.inviteLink.value=link; els.copyInviteBtn.disabled=false; els.leaveRoomBtn.disabled=false; setShareStatus("共有ルーム待機中：招待リンクをフレンドに送ってください。", "connecting"); });
+    peer.on("connection", conn=>wireConnection(conn,true));
+    peer.on("error", err=>{ console.error(err); setShareStatus("共有ルームの作成に失敗しました。ページを再読み込みしてもう一度試してください。"); els.createRoomBtn.disabled=false; });
+  }
+  function joinShareRoom(id){
+    if(!id || typeof Peer==="undefined") return;
+    isRoomHost=false; hostPeerId=id; setShareStatus("フレンドの共有ルームに接続中…", "connecting"); els.createRoomBtn.disabled=true; els.leaveRoomBtn.disabled=false;
+    peer=new Peer();
+    peer.on("open", ()=>wireConnection(peer.connect(id,{reliable:true})));
+    peer.on("error", err=>{ console.error(err); setShareStatus("共有ルームに接続できませんでした。ホストがページを開いているか確認してください。"); els.createRoomBtn.disabled=false; });
+  }
+
+  function applyTransform(){
+    els.content.style.transform = 'translate('+panX+'px,'+panY+'px) scale('+scale+') translate('+(-imageW/2)+'px,'+(-imageH/2)+'px)';
+    els.zoomReset.textContent = Math.round(scale*100) + "%";
+  }
+  function fitMap(){
+    const rect = els.mapStage.getBoundingClientRect();
+    const fit = Math.min(rect.width / imageW, rect.height / imageH) * 0.95;
+    scale = Math.max(0.12, Math.min(2.2, fit)); panX = 0; panY = 0; applyTransform();
+  }
+  function setMap(name, fromSync=false){
+    currentMap = name;
+    const meta = MAPS.find(m => m.name === name);
+    selectedFloor = meta?.defaultFloor || meta?.floors?.[0] || "Ground_Level";
+    selectedPinId = null; els.pinNoteInput.value = "";
+    els.currentMapTitle.textContent = name;
+    renderMapButtons();
+    renderFloorBar();
+    loadMapImage();
+    updateMapInfo();
+    renderTaskLists();
+    if(!fromSync && !suppressSync) sendShared({type:"nav",map:currentMap,floor:selectedFloor});
+  }
+  function floorLabel(id){
+    const ja = {
+      Basement:"地下", Ground_Floor:"地上階", Ground_Level:"地上",
+      Underground_Level:"地下", First_Floor:"1F", Second_Floor:"2F", Third_Floor:"3F",
+      Fourth_Floor:"4F", Fifth_Floor:"5F", Bunkers:"地下バンカー",
+      Technical_Level:"テクニカル階", First_Level:"1F", Second_Level:"2F", Dorm2_1F:"2階建て寮 1F", Dorm2_2F:"2階建て寮 2F", Dorm3_1F:"3階建て寮 1F", Dorm3_2F:"3階建て寮 2F", Dorm3_3F:"3階建て寮 3F"
+    };
+    return ja[id] || id.replaceAll("_"," ");
+  }
+
+  function renderFloorBar(){
+    const meta = MAPS.find(m => m.name === currentMap);
+    const floors = meta?.floors || [];
+    els.floorBar.innerHTML = floors.map(f => '<button class="floor-btn '+(f===selectedFloor?'active':'')+'" data-floor="'+f+'">'+floorLabel(f)+'</button>').join("");
+    els.floorBar.querySelectorAll("[data-floor]").forEach(btn => btn.onclick = () => {
+      selectedFloor = btn.dataset.floor;
+      applyFloorVisibility();
+      renderFloorBar();
+      if(!suppressSync) sendShared({type:"nav",map:currentMap,floor:selectedFloor});
+    });
+  }
+
+
+  function customsDormSvg(floor){
+    const layouts = {
+      Dorm2_1F:{title:"Customs 2階建て寮 1F",rooms:["101","102","103","104","105","106","107","108","109","110","111","112","113","114"]},
+      Dorm2_2F:{title:"Customs 2階建て寮 2F",rooms:["201","202","203","204","205","206","207","208","209","210","211","212","213","214"]},
+      Dorm3_1F:{title:"Customs 3階建て寮 1F",rooms:["101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118"]},
+      Dorm3_2F:{title:"Customs 3階建て寮 2F",rooms:["201","202","203","204","205","206","207","208","209","210","211","212","213","214","215","216","217","218","219","220"]},
+      Dorm3_3F:{title:"Customs 3階建て寮 3F",rooms:["301","302","303","304","305","306","307","308","309","310","311","312","313","314","315"]}
+    };
+    const data = layouts[floor];
+    if(!data) return "";
+    const cols = 5, roomW = 150, roomH = 92, gap = 12;
+    const startX = 135, startY = 150;
+    const roomRects = data.rooms.map((r,i)=>{
+      const row=Math.floor(i/cols), col=i%cols;
+      const x=startX+col*(roomW+gap), y=startY+row*(roomH+gap);
+      const keyed=["104","105","110","114","118","203","204","206","214","218","220","303","306","308","314","315"].includes(r);
+      return `<g><rect x="${x}" y="${y}" width="${roomW}" height="${roomH}" rx="8" fill="${keyed?'#24324b':'#182029'}" stroke="${keyed?'#8299d8':'#56606d'}" stroke-width="2"/><text x="${x+roomW/2}" y="${y+54}" text-anchor="middle" fill="#eef3f7" font-size="28" font-family="Segoe UI, sans-serif">${r}</text>${keyed?`<circle cx="${x+roomW-18}" cy="${y+18}" r="7" fill="#d8c26b"/>`:""}</g>`;
+    }).join("");
+    return `<svg viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="760" fill="#0d1218"/>
+      <text x="60" y="70" fill="#edf1f4" font-size="34" font-weight="700" font-family="Segoe UI, sans-serif">${data.title}</text>
+      <text x="60" y="110" fill="#95a0ad" font-size="18" font-family="Segoe UI, sans-serif">部屋番号確認用の簡易フロア図（黄色印＝主要な鍵部屋）</text>
+      <rect x="95" y="125" width="900" height="520" rx="16" fill="#121922" stroke="#394553" stroke-width="4"/>
+      <rect x="520" y="125" width="80" height="520" fill="#202a35"/>
+      <text x="560" y="390" fill="#9da8b5" font-size="22" text-anchor="middle" transform="rotate(-90 560 390)" font-family="Segoe UI, sans-serif">廊下 / 階段</text>
+      ${roomRects}
+      <text x="1020" y="165" fill="#d8c26b" font-size="18" font-family="Segoe UI, sans-serif">● 鍵部屋</text>
+      <text x="1020" y="205" fill="#95a0ad" font-size="15" font-family="Segoe UI, sans-serif">※建物内部用。</text>
+      <text x="1020" y="230" fill="#95a0ad" font-size="15" font-family="Segoe UI, sans-serif">全体マップとは別表示です。</text>
+    </svg>`;
+  }
+
+  function applyFloorVisibility(){
+    const meta = MAPS.find(m => m.name === currentMap);
+    if(!meta) return;
+
+    if(currentMap === "Customs" && selectedFloor.startsWith("Dorm")){
+      els.svgHost.style.display = "none";
+      els.mapImage.style.display = "none";
+      els.customFloorHost.style.display = "block";
+      imageW = 1200; imageH = 760;
+      els.customFloorHost.innerHTML = customsDormSvg(selectedFloor);
+      els.pinLayer.style.width=imageW+"px";
+      els.pinLayer.style.height=imageH+"px";
+      requestAnimationFrame(()=>{fitMap();renderPins();});
+      return;
+    }
+
+    els.customFloorHost.style.display = "none";
+    els.svgHost.style.display = "block";
+    if(!els.svgHost.firstElementChild) return;
+    const svg = els.svgHost.firstElementChild;
+    for(const floor of meta.floors || []){
+      if(floor.startsWith("Dorm")) continue;
+      const group = svg.querySelector('#'+CSS.escape(floor));
+      if(group) group.style.display = (floor === selectedFloor ? "" : "none");
+    }
+  }
+
+  async function loadMapImage(){
+    const meta = MAPS.find(m => m.name === currentMap);
+    const url = "https://cdn.jsdelivr.net/gh/the-hideout/tarkov-dev-svg-maps@main/" + meta.file;
+    els.placeholder.style.display = "none";
+    els.customFloorHost.style.display = "none"; els.customFloorHost.innerHTML = "";
+    els.svgHost.innerHTML = "";
+    els.svgHost.style.display = "block";
+    els.mapImage.style.display = "none";
+    try{
+      const r = await fetch(url, {cache:"force-cache"});
+      if(!r.ok) throw new Error("map HTTP "+r.status);
+      const svgText = await r.text();
+      const doc = new DOMParser().parseFromString(svgText, "image/svg+xml");
+      const svg = doc.documentElement;
+      if(svg.nodeName.toLowerCase() !== "svg") throw new Error("SVG parse");
+      const vb = svg.viewBox?.baseVal;
+      let w = parseFloat(svg.getAttribute("width")) || (vb?.width || 1200);
+      let h = parseFloat(svg.getAttribute("height")) || (vb?.height || 800);
+      if(!svg.getAttribute("viewBox")) svg.setAttribute("viewBox","0 0 "+w+" "+h);
+      imageW = 1200;
+      imageH = Math.max(500, Math.min(1700, Math.round(imageW * h / w)));
+      svg.removeAttribute("width"); svg.removeAttribute("height");
+      svg.setAttribute("preserveAspectRatio","xMidYMid meet");
+      els.svgHost.style.width = imageW+"px";
+      els.svgHost.style.height = imageH+"px";
+      els.svgHost.appendChild(document.importNode(svg,true));
+      els.pinLayer.style.width = imageW+"px";
+      els.pinLayer.style.height = imageH+"px";
+      applyFloorVisibility();
+      requestAnimationFrame(()=>{fitMap();renderPins();});
+    }catch(err){
+      console.warn("inline SVG failed, fallback image", err);
+      els.svgHost.style.display = "none";
+      els.mapImage.style.display = "block";
+      els.mapImage.onload = () => {
+        const nw = els.mapImage.naturalWidth || 1200, nh = els.mapImage.naturalHeight || 800;
+        imageW = 1200; imageH = Math.max(500, Math.min(1700, Math.round(imageW*nh/nw)));
+        els.mapImage.style.width=imageW+"px"; els.mapImage.style.height=imageH+"px"; els.mapImage.style.objectFit="contain";
+        els.pinLayer.style.width=imageW+"px"; els.pinLayer.style.height=imageH+"px";
+        requestAnimationFrame(()=>{fitMap();renderPins();});
+      };
+      els.mapImage.onerror = () => {
+        imageW=1200; imageH=800; els.mapImage.style.display="none";
+        els.placeholder.style.display="grid"; els.placeholder.style.width=imageW+"px"; els.placeholder.style.height=imageH+"px";
+        els.pinLayer.style.width=imageW+"px"; els.pinLayer.style.height=imageH+"px";
+        requestAnimationFrame(()=>{fitMap();renderPins();});
+      };
+      els.mapImage.src = url;
+    }
+  }
+
+  function renderPins(){
+    const builtins = getBuiltInExits();
+    const builtinHtml = builtins.map(p => {
+      const cls = p.labelPos ? (' label-' + p.labelPos.replace(/_/g,'-')) : '';
+      const bigMaps = ["Factory","Ground Zero","Lighthouse","Streets of Tarkov"];
+      const sizeCls = currentMap === "Customs" ? "" : (bigMaps.includes(currentMap) ? " xlarge-label" : " large-label");
+      return '<div class="pin-item builtin'+cls+sizeCls+'" style="left:'+(p.x*100)+'%;top:'+(p.y*100)+'%;"><div class="pin-hit">'+pinSvg(getStamp(p.type),18)+'</div><div class="pin-label">'+escapeHtml(p.label)+'</div></div>';
+    }).join("");
+    const pins = getPins();
+    const userHtml = pins.map(p => {
+      const note = p.note ? '<div class="pin-note" title="'+escapeHtml(p.note)+'">'+escapeHtml(p.note)+'</div>' : '';
+      return '<div class="pin-item user '+(selectedPinId===p.id?'selected':'')+'" data-id="'+p.id+'" style="left:'+(p.x*100)+'%;top:'+(p.y*100)+'%;"><div class="pin-hit">'+pinSvg(getStamp(p.type),20)+'</div>'+note+'</div>';
+    }).join("");
+    els.pinLayer.innerHTML = builtinHtml + userHtml;
+    els.pinLayer.querySelectorAll(".pin-item.user").forEach(item => {
+      const id = item.dataset.id;
+      item.addEventListener("pointerdown", e => {
+        e.stopPropagation(); selectPin(id); pinDragging = {id, pointerId:e.pointerId}; item.setPointerCapture(e.pointerId);
+      });
+    });
+  }
+  const USER_PIN_Y_BIAS = 0.012;
+
+  function selectPin(id){
+    selectedPinId = id;
+    const pin = getPins().find(p => p.id === id);
+    els.pinNoteInput.value = pin?.note || "";
+    renderPins();
+  }
+  function eventToNorm(e){
+    const target = (els.svgHost.style.display !== "none" && els.svgHost.offsetWidth) ? els.svgHost : els.mapImage; const rect = target.getBoundingClientRect();
+    return {x:Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)), y:Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height))};
+  }
+  function placePin(e){
+    const p = eventToNorm(e), pins = getPins();
+    pins.push({id:crypto.randomUUID(), type:selectedStamp, x:p.x, y:Math.min(1, p.y + USER_PIN_Y_BIAS), note:""});
+    savePins(pins); selectPin(pins[pins.length-1].id);
+  }
+
+  els.mapStage.addEventListener("dblclick", e => { if(!e.target.closest(".pin-item")) placePin(e); });
+  els.mapStage.addEventListener("pointerdown", e => {
+    if(e.target.closest(".pin-item")) return;
+    mapDragging = true; dragStart = {x:e.clientX-panX, y:e.clientY-panY}; els.mapStage.setPointerCapture(e.pointerId);
+  });
+  els.mapStage.addEventListener("pointermove", e => {
+    if(pinDragging){
+      const pins = getPins(), pin = pins.find(p => p.id === pinDragging.id);
+      if(pin){ const p = eventToNorm(e); pin.x = p.x; pin.y = Math.min(1, p.y + USER_PIN_Y_BIAS); savePins(pins); renderPins(); }
+      return;
+    }
+    if(mapDragging){ panX = e.clientX - dragStart.x; panY = e.clientY - dragStart.y; applyTransform(); }
+  });
+  els.mapStage.addEventListener("pointerup", () => { mapDragging = false; pinDragging = null; });
+  els.mapStage.addEventListener("pointercancel", () => { mapDragging = false; pinDragging = null; });
+  els.mapStage.addEventListener("wheel", e => { e.preventDefault(); scale = Math.max(0.12, Math.min(3, e.deltaY < 0 ? scale * 1.12 : scale / 1.12)); applyTransform(); }, {passive:false});
+
+  els.zoomIn.onclick = () => { scale = Math.min(3, scale*1.15); applyTransform(); };
+  els.zoomOut.onclick = () => { scale = Math.max(0.12, scale/1.15); applyTransform(); };
+  els.zoomReset.onclick = () => fitMap();
+
+  els.saveNoteBtn.onclick = () => {
+    if(!selectedPinId) return;
+    const pins = getPins(), pin = pins.find(p => p.id === selectedPinId);
+    if(pin){ pin.note = els.pinNoteInput.value.trim(); savePins(pins); renderPins(); }
+  };
+  els.deletePinBtn.onclick = () => {
+    if(!selectedPinId) return;
+    savePins(getPins().filter(p => p.id !== selectedPinId)); selectedPinId = null; els.pinNoteInput.value = ""; renderPins();
+  };
+
+  function normalizeTask(t){
+    const trader = t.trader?.name || t.trader || "Unknown";
+    const objectives = Array.isArray(t.objectives) ? t.objectives : [];
+    const maps = [...new Set([...(t.map ? [mapAlias(t.map.name || t.map)] : []), ...objectives.flatMap(o => (o.maps || []).map(m => mapAlias(m.name || m)))].filter(Boolean))];
+    const requirements = (t.taskRequirements || t.requirements || []).map(r => r.task?.id || r.taskId || r.id).filter(Boolean);
+    return {...t, _id:t.id || t._id, _name:t.name || "Unnamed task", _trader:trader, _maps:maps, _requirements:requirements, _wiki:t.wikiLink || t.wiki || "", _objectives:objectives.map(o => o.description || o.text || "").filter(Boolean), _neededKeys:t._neededKeys || []};
+  }
+  function computeRanks(list){
+    const memo = new Map(), visiting = new Set();
+    function rank(task){
+      if(memo.has(task._id)) return memo.get(task._id);
+      if(visiting.has(task._id)) return 0;
+      visiting.add(task._id);
+      const reqTasks = task._requirements.map(id => taskIndex.get(id)).filter(Boolean);
+      const r = reqTasks.length ? 1 + Math.max(...reqTasks.map(rank)) : 0;
+      visiting.delete(task._id); memo.set(task._id, r); return r;
+    }
+    list.forEach(rank); return memo;
+  }
+  function seedTaskCompare(a,b){
+    const traderA = TRADER_ORDER.indexOf(a._trader); const traderB = TRADER_ORDER.indexOf(b._trader);
+    return (a.minPlayerLevel||0)-(b.minPlayerLevel||0)
+      || ((traderA<0?99:traderA)-(traderB<0?99:traderB))
+      || rankOf(a)-rankOf(b)
+      || (a._sourceIndex??999999)-(b._sourceIndex??999999);
+  }
+  function computeTopoOrder(list){
+    const indegree = new Map();
+    const nextMap = new Map();
+    list.forEach(t => { indegree.set(t._id, 0); nextMap.set(t._id, []); });
+    list.forEach(t => {
+      t._requirements.map(id => taskIndex.get(id)).filter(Boolean).forEach(req => {
+        indegree.set(t._id, (indegree.get(t._id)||0) + 1);
+        nextMap.get(req._id).push(t);
+      });
+    });
+    let queue = list.filter(t => (indegree.get(t._id)||0)===0).sort(seedTaskCompare);
+    const order = new Map();
+    let idx = 0;
+    while(queue.length){
+      const cur = queue.shift();
+      if(order.has(cur._id)) continue;
+      order.set(cur._id, idx++);
+      const nexts = (nextMap.get(cur._id) || []).sort(seedTaskCompare);
+      nexts.forEach(n => {
+        indegree.set(n._id, (indegree.get(n._id)||0) - 1);
+        if((indegree.get(n._id)||0) <= 0) queue.push(n);
+      });
+      queue.sort(seedTaskCompare);
+    }
+    list.forEach(t => { if(!order.has(t._id)) order.set(t._id, idx++); });
+    return order;
+  }
+  const rankOf = t => (progressionRank.get(t._id) || 0) + 1;
+  const orderOf = t => (topoOrder.get(t._id) ?? 999999);
+  const taskSort = (a,b) => orderOf(a)-orderOf(b) || rankOf(a)-rankOf(b) || (a.minPlayerLevel||0)-(b.minPlayerLevel||0) || (a._sourceIndex??999999)-(b._sourceIndex??999999);
+
+  function getBuiltInExits(){
+    if(!showBuiltInExits) return [];
+    if(currentMap === "Customs" && String(selectedFloor).startsWith("Dorm")) return [];
+    return (BUILTIN_EXITS[currentMap] || []).filter(p => builtInExitFilters[p.type] !== false);
+  }
+
+  async function loadTasks(){
+    els.apiStatus.textContent = "現行PvPタスクを読み込み中…";
+    const base = "https://json.tarkov.dev/regular/";
+    const overlayUrl = "https://cdn.jsdelivr.net/gh/tarkovtracker-org/tarkov-data-overlay@main/dist/overlay.json";
+
+    async function get(path){
+      const r = await fetch(base+path,{headers:{Accept:"application/json"},cache:"no-store"});
+      if(!r.ok) throw new Error(path+" HTTP "+r.status);
+      const payload = await r.json();
+      return (payload && payload.data && typeof payload.data==="object") ? payload.data : {};
+    }
+    function asRecord(value, prop){
+      const v = prop && value && value[prop] !== undefined ? value[prop] : value;
+      if(Array.isArray(v)) return Object.fromEntries(v.filter(Boolean).map(x=>[x.id||x._id||crypto.randomUUID(),x]));
+      return (v && typeof v==="object") ? v : {};
+    }
+    function findEntity(collection, id){
+      if(!id) return null;
+      if(typeof id==="object") return id;
+      if(collection[id]) return collection[id];
+      return Object.values(collection).find(x=>x && (x.id===id || x._id===id)) || null;
+    }
+    function translate(primary, fallback, key){
+      if(typeof key!=="string") return "";
+      return primary[key] ?? fallback[key] ?? key;
+    }
+    function isHexLike(s){ return /^[0-9a-f]{20,}$/i.test(String(s||"")); }
+
+    try{
+      const [taskBase, taskJa, taskEn, mapBase, mapJa, mapEn, traderBase, traderJa, traderEn, itemBase, itemJa, itemEn, overlay] = await Promise.all([
+        get("tasks"), get("tasks_ja"), get("tasks_en"),
+        get("maps"), get("maps_ja"), get("maps_en"),
+        get("traders"), get("traders_ja"), get("traders_en"),
+        get("items"), get("items_ja"), get("items_en"),
+        fetch(overlayUrl,{cache:"no-store"}).then(r=>r.ok?r.json():({}))
+      ]);
+
+      const rawTasks = asRecord(taskBase,"tasks");
+      const rawMaps = asRecord(mapBase,"maps");
+      const rawTraders = asRecord(traderBase,"traders");
+      const taskJaMap=asRecord(taskJa), taskEnMap=asRecord(taskEn);
+      const mapJaMap=asRecord(mapJa), mapEnMap=asRecord(mapEn);
+      const traderJaMap=asRecord(traderJa), traderEnMap=asRecord(traderEn);
+      const rawItems=asRecord(itemBase,"items"), itemJaMap=asRecord(itemJa), itemEnMap=asRecord(itemEn);
+
+      const sharedPatches = overlay?.tasks || {};
+      const modePatches = overlay?.modes?.regular?.tasks || {};
+      const additions = [
+        ...Object.values(overlay?.tasksAdd || {}),
+        ...Object.values(overlay?.modes?.regular?.tasksAdd || {})
+      ];
+
+      function patchTask(raw){
+        const p1=sharedPatches[raw.id]||{}, p2=modePatches[raw.id]||{};
+        return {...raw,...p1,...p2,objectives:p2.objectives||p1.objectives?raw.objectives:raw.objectives};
+      }
+
+      const merged = [...Object.values(rawTasks).map(patchTask), ...additions].filter(Boolean);
+      const normalized = [];
+
+      function keyNameFromValue(v){
+        if(!v) return "";
+        function gameDisplayName(item, fallback=""){
+          if(!item) return fallback;
+          const id = item.id || item._id || item.itemId;
+          const en = id ? (itemEnMap[id] || itemEnMap[item.name] || itemEnMap[item.shortName]) : null;
+          if(typeof en === "string" && en.trim()) return en.trim();
+          if(en && typeof en === "object"){
+            const n = en.name || en.shortName || en.fullName;
+            if(n) return String(n).trim();
+          }
+          return String(item.name || item.fullName || item.shortName || fallback || "").trim();
+        }
+        if(typeof v === "string"){
+          const item=findEntity(rawItems,v);
+          return gameDisplayName(item, v);
+        }
+        if(typeof v === "object"){
+          const id=v.id || v._id || v.itemId;
+          const item=findEntity(rawItems,id) || v;
+          return gameDisplayName(item, v.name || v.shortName || "");
+        }
+        return "";
+      }
+      function collectNeededKeys(raw){
+        const names=[];
+        const seen=new Set();
+        function add(v){ const n=keyNameFromValue(v); if(n && !seen.has(n)){seen.add(n); names.push(n);} }
+        function walk(v, depth=0){
+          if(v==null || depth>5) return;
+          if(Array.isArray(v)){ v.forEach(x=>walk(x,depth+1)); return; }
+          if(typeof v === "string"){ add(v); return; }
+          if(typeof v !== "object") return;
+          if(v.id || v._id || v.itemId || v.name){ add(v); }
+          for(const [k,val] of Object.entries(v)){
+            if(["requiredKeys","neededKeys","keys","items","item"].includes(k)) walk(val,depth+1);
+          }
+        }
+        walk(raw.neededKeys || raw.requiredKeys || []);
+        (raw.objectives||[]).forEach(o=>walk(o.requiredKeys || o.neededKeys || []));
+        return names;
+      }
+
+      for(let rawIndex=0; rawIndex<merged.length; rawIndex++){
+        const raw0=merged[rawIndex];
+        const patch = {...(sharedPatches[raw0.id]||{}),...(modePatches[raw0.id]||{})};
+        if(patch.disabled===true || raw0.disabled===true) continue;
+
+        const raw = {...raw0};
+        let traderObj = findEntity(rawTraders, raw.trader);
+        if(!traderObj && raw.trader && typeof raw.trader==="object") traderObj=raw.trader;
+        let traderName = raw.trader?.name || traderObj?.name || "";
+        traderName = translate(traderJaMap,traderEnMap,traderName);
+        if(!traderName || isHexLike(traderName)) traderName = translate({},traderEnMap,traderObj?.name||"");
+        if(!traderName) traderName="Unknown";
+
+        let mapObj = findEntity(rawMaps, raw.map);
+        if(!mapObj && raw.map && typeof raw.map==="object") mapObj=raw.map;
+        let mapName = raw.map?.name || mapObj?.name || "";
+        mapName = translate(mapJaMap,mapEnMap,mapName);
+
+        let taskName = translate(taskJaMap,taskEnMap,raw.name);
+        if(isHexLike(taskName)) taskName = translate({},taskEnMap,raw.name);
+        if(!taskName || isHexLike(taskName)) continue;
+
+        const objectives = (raw.objectives||[]).map(o=>{
+          const desc = translate(taskJaMap,taskEnMap,o.description);
+          const maps = (o.maps||[]).map(mid=>{
+            const m=findEntity(rawMaps,mid);
+            const mn=translate(mapJaMap,mapEnMap,m?.name || mid?.name || "");
+            return {id:typeof mid==="string"?mid:(mid?.id||""),name:mn};
+          });
+          return {...o,description:desc,maps};
+        });
+
+        const reqs=(raw.taskRequirements||raw.requirements||[]).map(r=>{
+          const tid=typeof r.task==="string"?r.task:(r.task?.id||r.taskId||r.id);
+          return {...r,task:{id:tid}};
+        });
+
+        const t=normalizeTask({
+          ...raw,
+          _sourceIndex:rawIndex,
+          _neededKeys:collectNeededKeys(raw),
+          name:taskName,
+          trader:{id:typeof raw.trader==="string"?raw.trader:(raw.trader?.id||traderObj?.id||""),name:traderName},
+          map:mapName?{id:typeof raw.map==="string"?raw.map:(raw.map?.id||mapObj?.id||""),name:mapName}:null,
+          objectives,
+          taskRequirements:reqs
+        });
+        normalized.push(t);
+      }
+
+      tasks = normalized;
+      taskIndex = new Map(tasks.map(t=>[t._id,t]));
+      progressionRank = computeRanks(tasks);
+      topoOrder = computeTopoOrder(tasks);
+      els.apiStatus.textContent = "現行PvPタスク読み込み完了：" + tasks.length + "件";
+      renderTraderGrid();
+      renderTaskLists();
+    }catch(e){
+      console.error(e);
+      tasks=[]; taskIndex=new Map(); progressionRank=new Map(); topoOrder=new Map();
+      els.apiStatus.textContent = "タスク取得に失敗しました。ページを再読み込みしてください";
+      renderTraderGrid(); renderTaskLists();
+    }
+  }
+
+  function taskCard(t, state){
+    const badges = t._maps.map(m => '<span class="badge">'+escapeHtml(m)+'</span>').join("");
+    const current = state.active ? '<span class="now-badge">進行中</span>' : "";
+    const done = state.completed ? '<span class="done-badge">完了</span>' : "";
+    return '<div class="task-card"><div class="task-name">'+escapeHtml(t._name)+' '+current+done+'</div><div class="task-meta"><span class="rank">進行 '+rankOf(t)+'</span><span>'+escapeHtml(t._trader)+'</span>'+(t.minPlayerLevel ? '<span>Lv.'+t.minPlayerLevel+'</span>' : '')+badges+'</div><div class="task-actions"><label><input type="checkbox" data-active="'+t._id+'" '+(state.active?'checked':'')+'> 進行中</label><label><input type="checkbox" data-done="'+t._id+'" '+(state.completed?'checked':'')+'> 完了</label><button data-open="'+t._id+'">詳細</button></div></div>';
+  }
+  function updateMapInfo(){
+    els.currentMapInfo.textContent = "このマップ関連タスク " + tasks.filter(t => t._maps.includes(currentMap)).length + "件";
+  }
+  function renderTraderGrid(){
+    const fromData = [...new Set(tasks.map(t => t._trader).filter(t=>t && t!=="Unknown"))];
+    const traders = fromData.sort((a,b)=>((TRADER_ORDER.indexOf(a)<0?99:TRADER_ORDER.indexOf(a))-(TRADER_ORDER.indexOf(b)<0?99:TRADER_ORDER.indexOf(b))) || a.localeCompare(b,"ja"));
+    if(!traders.includes(selectedTrader)) selectedTrader = traders[0] || "";
+    els.traderGrid.innerHTML = traders.map(t => '<button class="trader-btn '+(t===selectedTrader?'active':'')+'" data-trader="'+escapeHtml(t)+'">'+escapeHtml(t)+'</button>').join("");
+    els.traderGrid.querySelectorAll("[data-trader]").forEach(btn => btn.onclick = () => {selectedTrader=btn.dataset.trader;renderTraderGrid();renderTraderTaskList();});
+  }
+  function bindTaskCardActions(root){
+    root.querySelectorAll("[data-open]").forEach(btn => btn.onclick = () => showTask(taskIndex.get(btn.dataset.open)));
+    root.querySelectorAll("[data-active]").forEach(cb => cb.onchange = () => {
+      const states = getTaskStates(), id = cb.dataset.active, state = states[id] || {active:false,completed:false};
+      state.active = cb.checked; if(cb.checked) state.completed = false; states[id] = state; saveTaskStates(states); renderTaskLists();
+    });
+    root.querySelectorAll("[data-done]").forEach(cb => cb.onchange = () => {
+      const states = getTaskStates(), id = cb.dataset.done, state = states[id] || {active:false,completed:false};
+      state.completed = cb.checked; if(cb.checked) state.active = false; states[id] = state; saveTaskStates(states); renderTaskLists();
+    });
+  }
+  function renderAllTaskList(){
+    const q = els.taskSearch.value.trim().toLowerCase(), states = getTaskStates();
+    const list = tasks.filter(t => {
+      const state = states[t._id] || {active:false,completed:false};
+      if(!els.showDoneToggle.checked && state.completed) return false;
+      if(allFilterMode==="map" && !t._maps.includes(currentMap)) return false;
+      if(q && !t._name.toLowerCase().includes(q)) return false;
+      return true;
+    }).sort((a,b) => {
+      const sa = states[a._id] || {active:false,completed:false};
+      const sb = states[b._id] || {active:false,completed:false};
+      if(sa.active !== sb.active) return sa.active ? -1 : 1;
+      return taskSort(a,b);
+    });
+    els.taskList.innerHTML = list.length ? list.map(t => taskCard(t, states[t._id] || {active:false,completed:false})).join("") : '<div class="status">表示できるタスクがありません</div>';
+    bindTaskCardActions(els.taskList);
+  }
+  function renderTraderTaskList(){
+    const q = els.traderTaskSearch.value.trim().toLowerCase(), states = getTaskStates();
+    const list = tasks.filter(t => {
+      const state = states[t._id] || {active:false,completed:false};
+      if(t._trader !== selectedTrader) return false;
+      if(!els.showDoneTraderToggle.checked && state.completed) return false;
+      if(q && !t._name.toLowerCase().includes(q)) return false;
+      return true;
+    }).sort((a,b) => {
+      const sa = states[a._id] || {active:false,completed:false};
+      const sb = states[b._id] || {active:false,completed:false};
+      if(sa.active !== sb.active) return sa.active ? -1 : 1;
+      return taskSort(a,b);
+    });
+    els.traderTaskList.innerHTML = list.length ? list.map(t => taskCard(t, states[t._id] || {active:false,completed:false})).join("") : '<div class="status">表示できるタスクがありません</div>';
+    bindTaskCardActions(els.traderTaskList);
+  }
+  function renderTaskLists(){ updateMapInfo(); renderAllTaskList(); renderTraderTaskList(); }
+  function wikiTaskName(t){
+    const aliases = {
+      "Shaking up the Teller":"Shaking Up the Teller",
+      "Half-Empty":"Half Empty"
+    };
+    return aliases[t._name] || t._name;
+  }
+  function showTask(t){
+    if(!t) return;
+    els.taskModalTitle.textContent = t._name;
+    els.taskModalMeta.innerHTML = '<span>'+escapeHtml(t._trader)+'</span>'+(t.minPlayerLevel ? '<span>Lv.'+t.minPlayerLevel+'</span>' : '')+'<span class="rank">進行 '+rankOf(t)+'</span>'+t._maps.map(m => '<span class="badge">'+escapeHtml(m)+'</span>').join("");
+    els.taskObjectives.innerHTML = (t._objectives.length ? t._objectives : ["目的データなし"]).map(x => '<li>'+escapeHtml(x)+'</li>').join("");
+    if(t._neededKeys && t._neededKeys.length){
+      els.taskKeys.style.display = "block";
+      els.taskKeysList.innerHTML = t._neededKeys.map(k => '<li>'+escapeHtml(k)+'</li>').join("");
+    }else{
+      els.taskKeys.style.display = "none";
+      els.taskKeysList.innerHTML = "";
+    }
+    if(t._trader && t._trader !== "Unknown"){
+      const traderPath = encodeURIComponent(t._trader);
+      const taskPath = encodeURIComponent(wikiTaskName(t)).replace(/%2F/gi,"/");
+      els.taskWiki.href = "https://wikiwiki.jp/eft/" + traderPath + "/" + taskPath;
+      els.taskWiki.textContent = "日本語Wikiのタスクページを開く ↗";
+    }else{
+      els.taskWiki.href = "https://wikiwiki.jp/eft/%3A%E3%82%BF%E3%82%B9%E3%82%AF%E4%B8%80%E8%A6%A7";
+      els.taskWiki.textContent = "日本語Wikiのタスク一覧を開く ↗";
+    }
+    els.taskWiki.style.display = "inline-block";
+    els.taskModal.classList.add("show");
+  }
+
+  els.closeTaskModal.onclick = () => els.taskModal.classList.remove("show");
+  els.taskModal.addEventListener("click", e => { if(e.target === els.taskModal) els.taskModal.classList.remove("show"); });
+  document.querySelectorAll(".tab").forEach(btn => btn.onclick = () => { document.querySelectorAll(".tab").forEach(x => x.classList.toggle("active", x===btn)); $("allTab").style.display = btn.dataset.tab==="all" ? "block" : "none"; $("traderTab").style.display = btn.dataset.tab==="trader" ? "block" : "none"; });
+  els.filterAllBtn.onclick = () => { allFilterMode = "all"; els.filterAllBtn.classList.add("active"); els.filterMapBtn.classList.remove("active"); renderAllTaskList(); };
+  els.filterMapBtn.onclick = () => { allFilterMode = "map"; els.filterMapBtn.classList.add("active"); els.filterAllBtn.classList.remove("active"); renderAllTaskList(); };
+  els.taskSearch.addEventListener("input", renderAllTaskList); els.traderTaskSearch.addEventListener("input", renderTraderTaskList);
+  els.showDoneToggle.addEventListener("change", renderAllTaskList); els.showDoneTraderToggle.addEventListener("change", renderTraderTaskList);
+  els.mobileTasksBtn.onclick = () => els.rightPanel.classList.toggle("open");
+  els.toggleExitsBtn.onclick = () => {
+    showBuiltInExits = !showBuiltInExits;
+    els.toggleExitsBtn.classList.toggle("active", showBuiltInExits);
+    els.toggleExitsBtn.textContent = showBuiltInExits ? "出口表示" : "出口非表示";
+    renderPins();
+  };
+  [els.pmcExitChk, els.scavExitChk, els.sharedExitChk, els.coopExitChk].forEach((el) => el.onchange = () => {
+    builtInExitFilters = {pmc_exit: els.pmcExitChk.checked, scav_exit: els.scavExitChk.checked, shared_exit: els.sharedExitChk.checked, coop_exit: els.coopExitChk.checked};
+    renderPins();
+  });
+  els.shareRoomBtn.onclick = () => els.shareModal.classList.add("show");
+  els.closeShareModal.onclick = () => els.shareModal.classList.remove("show");
+  els.shareModal.addEventListener("click", e=>{ if(e.target===els.shareModal) els.shareModal.classList.remove("show"); });
+  els.createRoomBtn.onclick = createShareRoom;
+  els.leaveRoomBtn.onclick = destroySharing;
+  els.copyInviteBtn.onclick = async () => {
+    if(!els.inviteLink.value) return;
+    try{ await navigator.clipboard.writeText(els.inviteLink.value); els.copyInviteBtn.textContent="コピーしました"; setTimeout(()=>els.copyInviteBtn.textContent="招待リンクをコピー",1400); }
+    catch{ els.inviteLink.select(); document.execCommand("copy"); }
+  };
+  window.addEventListener("resize", () => fitMap());
+
+  function demoTasks(){
+    return [
+      {id:"demo1",name:"Burning Rubber",trader:{name:"Prapor"},map:{name:"Ground Zero"},minPlayerLevel:1,wikiLink:"https://escapefromtarkov.fandom.com/wiki/Burning_Rubber",objectives:[{description:"Ground Zeroから脱出する",maps:[{name:"Ground Zero"}]}]},
+      {id:"demo2",name:"Debut",trader:{name:"Prapor"},map:{name:"Customs"},minPlayerLevel:1,wikiLink:"https://escapefromtarkov.fandom.com/wiki/Debut",objectives:[{description:"CustomsでScavを倒し、ショットガンを提出する",maps:[{name:"Customs"}]}],taskRequirements:[{task:{id:"demo1"}}]},
+      {id:"demo3",name:"Checking",trader:{name:"Prapor"},map:{name:"Customs"},minPlayerLevel:2,wikiLink:"https://escapefromtarkov.fandom.com/wiki/Checking",objectives:[{description:"Customsのトラックからブロンズポケットウォッチを回収する",maps:[{name:"Customs"}]}],taskRequirements:[{task:{id:"demo2"}}]}
+    ];
+  }
+
+  renderMapButtons(); renderStampBar(); renderFloorBar(); setMap(currentMap); loadTasks();
+  const roomFromUrl = new URL(location.href).searchParams.get("room");
+  if(roomFromUrl){ els.shareModal.classList.add("show"); joinShareRoom(roomFromUrl); }
+})();
 </script>
 </body>
 </html>
